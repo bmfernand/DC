@@ -4,7 +4,7 @@
         <extensions>
             <entry key="Auto-generate config" type="Boolean">false</entry>
             <entry key="config" type="String">!
-! Last configuration change at 00:09:56 UTC Fri Aug 19 2016
+! Last configuration change at 18:56:15 UTC Fri Aug 19 2016
 !
 version 15.6
 service timestamps debug datetime msec
@@ -69,7 +69,7 @@ interface Loopback0
  ip router isis 
 !
 interface GigabitEthernet0/0
- no ip address
+ ip address 10.255.1.228 255.255.0.0
  shutdown
  duplex auto
  speed auto
@@ -157,7 +157,7 @@ end</entry>
         <extensions>
             <entry key="Auto-generate config" type="Boolean">false</entry>
             <entry key="config" type="String">!
-! Last configuration change at 00:10:29 UTC Fri Aug 19 2016
+! Last configuration change at 18:56:17 UTC Fri Aug 19 2016
 !
 version 15.6
 service timestamps debug datetime msec
@@ -222,7 +222,7 @@ interface Loopback0
  ip router isis 
 !
 interface GigabitEthernet0/0
- no ip address
+ ip address 10.255.1.226 255.255.0.0
  shutdown
  duplex auto
  speed auto
@@ -234,19 +234,23 @@ interface GigabitEthernet0/1
  duplex auto
  speed auto
  media-type rj45
+ isis priority 100
 !
 interface GigabitEthernet0/2
- no ip address
- shutdown
+ ip address 192.168.24.2 255.255.255.0
+ ip router isis 
  duplex auto
  speed auto
  media-type rj45
+ isis network point-to-point 
 !
 router isis
  net 49.0030.2222.2222.2222.00
+ is-type level-2-only
  log-adjacency-changes
  passive-interface default
  no passive-interface GigabitEthernet0/1
+ no passive-interface GigabitEthernet0/2
  no passive-interface Loopback0
 !
 ip forward-protocol nd
@@ -305,7 +309,7 @@ end</entry>
         <extensions>
             <entry key="Auto-generate config" type="Boolean">false</entry>
             <entry key="config" type="String">!
-! Last configuration change at 00:10:19 UTC Fri Aug 19 2016
+! Last configuration change at 18:56:21 UTC Fri Aug 19 2016
 !
 version 15.6
 service timestamps debug datetime msec
@@ -370,7 +374,7 @@ interface Loopback0
  ip router isis 
 !
 interface GigabitEthernet0/0
- no ip address
+ ip address 10.255.1.227 255.255.0.0
  shutdown
  duplex auto
  speed auto
@@ -449,14 +453,14 @@ end</entry>
         <extensions>
             <entry key="Auto-generate config" type="Boolean">false</entry>
             <entry key="config" type="String">!
-! Last configuration change at 00:10:42 UTC Fri Aug 19 2016
+! Last configuration change at 18:56:24 UTC Fri Aug 19 2016
 !
 version 15.6
 service timestamps debug datetime msec
 service timestamps log datetime msec
 no service password-encryption
 !
-hostname Router
+hostname R4
 !
 boot-start-marker
 boot-end-marker
@@ -508,19 +512,23 @@ redundancy
 !
 !
 !
+interface Loopback0
+ ip address 10.1.4.4 255.255.255.255
+ ip router isis 
+!
 interface GigabitEthernet0/0
  no ip address
  shutdown
  duplex auto
  speed auto
- media-type rj45
 !
 interface GigabitEthernet0/1
- no ip address
- shutdown
+ ip address 192.168.24.4 255.255.255.0
+ ip router isis 
  duplex auto
  speed auto
  media-type rj45
+ isis network point-to-point 
 !
 interface GigabitEthernet0/2
  no ip address
@@ -528,6 +536,10 @@ interface GigabitEthernet0/2
  duplex auto
  speed auto
  media-type rj45
+!
+router isis
+ net 49.0030.4444.4444.4444.00
+ log-adjacency-changes
 !
 ip forward-protocol nd
 !
@@ -585,14 +597,14 @@ end</entry>
         <extensions>
             <entry key="Auto-generate config" type="Boolean">false</entry>
             <entry key="config" type="String">!
-! Last configuration change at 00:10:46 UTC Fri Aug 19 2016
+! Last configuration change at 18:56:15 UTC Fri Aug 19 2016
 !
 version 15.6
 service timestamps debug datetime msec
 service timestamps log datetime msec
 no service password-encryption
 !
-hostname Router
+hostname R5
 !
 boot-start-marker
 boot-end-marker
@@ -645,7 +657,7 @@ redundancy
 !
 !
 interface GigabitEthernet0/0
- no ip address
+ ip address 10.255.1.225 255.255.0.0
  shutdown
  duplex auto
  speed auto
@@ -721,14 +733,14 @@ end</entry>
         <extensions>
             <entry key="Auto-generate config" type="Boolean">false</entry>
             <entry key="config" type="String">!
-! Last configuration change at 00:10:51 UTC Fri Aug 19 2016
+! Last configuration change at 18:56:19 UTC Fri Aug 19 2016
 !
 version 15.6
 service timestamps debug datetime msec
 service timestamps log datetime msec
 no service password-encryption
 !
-hostname Router
+hostname R6
 !
 boot-start-marker
 boot-end-marker
@@ -781,7 +793,7 @@ redundancy
 !
 !
 interface GigabitEthernet0/0
- no ip address
+ ip address 10.255.1.222 255.255.0.0
  shutdown
  duplex auto
  speed auto
@@ -857,14 +869,14 @@ end</entry>
         <extensions>
             <entry key="Auto-generate config" type="Boolean">false</entry>
             <entry key="config" type="String">!
-! Last configuration change at 00:10:34 UTC Fri Aug 19 2016
+! Last configuration change at 18:56:23 UTC Fri Aug 19 2016
 !
 version 15.6
 service timestamps debug datetime msec
 service timestamps log datetime msec
 no service password-encryption
 !
-hostname Router
+hostname R7
 !
 boot-start-marker
 boot-end-marker
@@ -917,7 +929,7 @@ redundancy
 !
 !
 interface GigabitEthernet0/0
- no ip address
+ ip address 10.255.1.223 255.255.0.0
  shutdown
  duplex auto
  speed auto
