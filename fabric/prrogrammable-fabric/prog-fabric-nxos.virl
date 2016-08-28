@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <topology xmlns="http://www.cisco.com/VIRL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" schemaVersion="0.9" xsi:schemaLocation="http://www.cisco.com/VIRL https://raw.github.com/CiscoVIRL/schema/v0.9/virl.xsd">
-    <node name="nx-osv-1" type="SIMPLE" subtype="NX-OSv" location="419,184">
+    <node name="nx-osv-1" type="SIMPLE" subtype="NX-OSv" location="382,77">
         <extensions>
             <entry key="Auto-generate config" type="Boolean">false</entry>
             <entry key="config" type="String">!Command: show running-config
@@ -833,7 +833,7 @@ no system default switchport shutdown</entry>
         <interface id="1" name="Ethernet2/2"/>
         <interface id="2" name="Ethernet2/3"/>
     </node>
-    <node name="nx-osv-2" type="SIMPLE" subtype="NX-OSv" location="598,185">
+    <node name="nx-osv-2" type="SIMPLE" subtype="NX-OSv" location="561,78">
         <extensions>
             <entry key="Auto-generate config" type="Boolean">false</entry>
             <entry key="config" type="String">!Command: show running-config
@@ -1653,7 +1653,7 @@ no system default switchport shutdown</entry>
         <interface id="1" name="Ethernet2/2"/>
         <interface id="2" name="Ethernet2/3"/>
     </node>
-    <node name="nx-osv-3" type="SIMPLE" subtype="NX-OSv" location="369,316">
+    <node name="nx-osv-3" type="SIMPLE" subtype="NX-OSv" location="332,209">
         <extensions>
             <entry key="Auto-generate config" type="Boolean">false</entry>
             <entry key="config" type="String">!Command: show running-config
@@ -2484,7 +2484,7 @@ no system default switchport shutdown</entry>
         <interface id="0" name="Ethernet2/1"/>
         <interface id="1" name="Ethernet2/2"/>
     </node>
-    <node name="nx-osv-4" type="SIMPLE" subtype="NX-OSv" location="524,318">
+    <node name="nx-osv-4" type="SIMPLE" subtype="NX-OSv" location="487,211">
         <extensions>
             <entry key="Auto-generate config" type="Boolean">false</entry>
             <entry key="config" type="String">!Command: show running-config
@@ -3297,7 +3297,7 @@ no system default switchport shutdown</entry>
         <interface id="0" name="Ethernet2/1"/>
         <interface id="1" name="Ethernet2/2"/>
     </node>
-    <node name="nx-osv-5" type="SIMPLE" subtype="NX-OSv" location="695,314">
+    <node name="nx-osv-5" type="SIMPLE" subtype="NX-OSv" location="658,207">
         <extensions>
             <entry key="Auto-generate config" type="Boolean">false</entry>
             <entry key="config" type="String">!Command: show running-config
