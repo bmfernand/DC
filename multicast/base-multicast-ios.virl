@@ -4,7 +4,7 @@
         <extensions>
             <entry key="Auto-generate config" type="Boolean">false</entry>
             <entry key="config" type="String">!
-! Last configuration change at 11:39:54 UTC Tue Oct 4 2016
+! Last configuration change at 17:12:26 UTC Tue Oct 4 2016
 !
 version 15.6
 service timestamps debug datetime msec
@@ -39,6 +39,7 @@ mmi snmp-timeout 180
 !
 !
 no ip domain lookup
+ip multicast-routing 
 ip cef
 no ipv6 cef
 !
@@ -67,9 +68,10 @@ redundancy
 interface Loopback0
  ip address 10.1.2.2 255.255.255.255
  ip router isis ISIS-01
+ ip pim sparse-mode
 !
 interface GigabitEthernet0/0
- no ip address
+ ip address 10.255.2.134 255.255.0.0
  shutdown
  duplex auto
  speed auto
@@ -78,6 +80,7 @@ interface GigabitEthernet0/0
 interface GigabitEthernet0/1
  ip address 10.2.11.2 255.255.255.0
  ip router isis ISIS-01
+ ip pim sparse-mode
  duplex auto
  speed auto
  media-type rj45
@@ -85,6 +88,7 @@ interface GigabitEthernet0/1
 interface GigabitEthernet0/2
  ip address 10.2.10.1 255.255.255.0
  ip router isis ISIS-01
+ ip pim sparse-mode
  duplex auto
  speed auto
  media-type rj45
@@ -99,6 +103,8 @@ ip forward-protocol nd
 !
 no ip http server
 no ip http secure-server
+ip pim autorp listener
+ip pim send-rp-announce Loopback0 scope 10 interval 10
 !
 !
 !
@@ -134,6 +140,7 @@ banner login `
 **************************************************************************`
 !
 line con 0
+ logging synchronous
 line aux 0
 line vty 0 4
  login
@@ -150,7 +157,7 @@ end</entry>
         <extensions>
             <entry key="Auto-generate config" type="Boolean">false</entry>
             <entry key="config" type="String">!
-! Last configuration change at 11:39:53 UTC Tue Oct 4 2016
+! Last configuration change at 17:13:21 UTC Tue Oct 4 2016
 !
 version 15.6
 service timestamps debug datetime msec
@@ -185,6 +192,7 @@ mmi snmp-timeout 180
 !
 !
 no ip domain lookup
+ip multicast-routing 
 ip cef
 no ipv6 cef
 !
@@ -213,9 +221,10 @@ redundancy
 interface Loopback0
  ip address 10.1.1.1 255.255.255.255
  ip router isis ISIS-01
+ ip pim sparse-mode
 !
 interface GigabitEthernet0/0
- no ip address
+ ip address 10.255.2.130 255.255.0.0
  shutdown
  duplex auto
  speed auto
@@ -224,6 +233,7 @@ interface GigabitEthernet0/0
 interface GigabitEthernet0/1
  ip address 10.2.11.1 255.255.255.0
  ip router isis ISIS-01
+ ip pim sparse-mode
  duplex auto
  speed auto
  media-type rj45
@@ -231,6 +241,7 @@ interface GigabitEthernet0/1
 interface GigabitEthernet0/2
  ip address 10.2.12.1 255.255.255.0
  ip router isis ISIS-01
+ ip pim sparse-mode
  duplex auto
  speed auto
  media-type rj45
@@ -245,6 +256,8 @@ ip forward-protocol nd
 !
 no ip http server
 no ip http secure-server
+ip pim autorp listener
+ip pim send-rp-discovery Loopback0 scope 5 interval 10
 !
 !
 !
@@ -280,6 +293,7 @@ banner login `
 **************************************************************************`
 !
 line con 0
+ logging synchronous
 line aux 0
 line vty 0 4
  login
@@ -296,7 +310,7 @@ end</entry>
         <extensions>
             <entry key="Auto-generate config" type="Boolean">false</entry>
             <entry key="config" type="String">!
-! Last configuration change at 11:39:52 UTC Tue Oct 4 2016
+! Last configuration change at 17:12:52 UTC Tue Oct 4 2016
 !
 version 15.6
 service timestamps debug datetime msec
@@ -331,6 +345,7 @@ mmi snmp-timeout 180
 !
 !
 no ip domain lookup
+ip multicast-routing 
 ip cef
 no ipv6 cef
 !
@@ -359,9 +374,10 @@ redundancy
 interface Loopback0
  ip address 10.1.3.3 255.255.255.255
  ip router isis ISIS-01
+ ip pim sparse-mode
 !
 interface GigabitEthernet0/0
- no ip address
+ ip address 10.255.2.133 255.255.0.0
  shutdown
  duplex auto
  speed auto
@@ -370,6 +386,7 @@ interface GigabitEthernet0/0
 interface GigabitEthernet0/1
  ip address 10.2.12.2 255.255.255.0
  ip router isis ISIS-01
+ ip pim sparse-mode
  duplex auto
  speed auto
  media-type rj45
@@ -377,6 +394,7 @@ interface GigabitEthernet0/1
 interface GigabitEthernet0/2
  ip address 10.2.13.1 255.255.255.0
  ip router isis ISIS-01
+ ip pim sparse-mode
  duplex auto
  speed auto
  media-type rj45
@@ -391,6 +409,8 @@ ip forward-protocol nd
 !
 no ip http server
 no ip http secure-server
+ip pim autorp listener
+ip pim send-rp-announce Loopback0 scope 10 interval 10
 !
 !
 !
@@ -426,6 +446,7 @@ banner login `
 **************************************************************************`
 !
 line con 0
+ logging synchronous
 line aux 0
 line vty 0 4
  login
@@ -442,7 +463,7 @@ end</entry>
         <extensions>
             <entry key="Auto-generate config" type="Boolean">false</entry>
             <entry key="config" type="String">!
-! Last configuration change at 11:39:57 UTC Tue Oct 4 2016
+! Last configuration change at 17:12:51 UTC Tue Oct 4 2016
 !
 version 15.6
 service timestamps debug datetime msec
@@ -473,10 +494,17 @@ mmi snmp-timeout 180
 !
 !
 !
+ip dhcp excluded-address 192.168.10.0 192.168.10.1
+ip dhcp excluded-address 192.168.10.10 192.168.10.255
+!
+ip dhcp pool DADOS
+ network 192.168.10.0 255.255.255.0
+ default-router 192.168.10.1 
 !
 !
 !
 no ip domain lookup
+ip multicast-routing 
 ip cef
 no ipv6 cef
 !
@@ -505,9 +533,10 @@ redundancy
 interface Loopback0
  ip address 10.1.4.4 255.255.255.255
  ip router isis ISIS-01
+ ip pim sparse-mode
 !
 interface GigabitEthernet0/0
- no ip address
+ ip address 10.255.2.129 255.255.0.0
  shutdown
  duplex auto
  speed auto
@@ -516,12 +545,183 @@ interface GigabitEthernet0/0
 interface GigabitEthernet0/1
  ip address 10.2.10.2 255.255.255.0
  ip router isis ISIS-01
+ ip pim sparse-mode
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/2
+ ip address 192.168.10.1 255.255.255.0
+ no ip redirects
+ no ip proxy-arp
+ ip router isis ISIS-01
+ ip pim sparse-mode
  duplex auto
  speed auto
  media-type rj45
 !
 router isis ISIS-01
  net 49.0001.0000.0000.0004.00
+ is-type level-1
+ log-adjacency-changes all
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+ip pim autorp listener
+!
+!
+!
+!
+control-plane
+!
+banner exec `
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************`
+banner incoming `
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************`
+banner login `
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************`
+!
+line con 0
+ logging synchronous
+line aux 0
+line vty 0 4
+ login
+ transport input none
+!
+no scheduler allocate
+!
+end</entry>
+        </extensions>
+        <interface id="0" name="GigabitEthernet0/1"/>
+        <interface id="1" name="GigabitEthernet0/2"/>
+    </node>
+    <node name="edge-02" type="SIMPLE" subtype="IOSv" location="704,244">
+        <extensions>
+            <entry key="Auto-generate config" type="Boolean">false</entry>
+            <entry key="config" type="String">!
+! Last configuration change at 17:12:31 UTC Tue Oct 4 2016
+!
+version 15.6
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname EDGE-02
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+ethernet lmi ce
+!
+!
+!
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+ip dhcp excluded-address 192.168.20.0 192.168.20.1
+ip dhcp excluded-address 192.168.20.10 192.168.20.255
+!
+ip dhcp pool DADOS
+ network 192.168.20.0 255.255.255.0
+ default-router 192.168.20.1 
+!
+!
+!
+no ip domain lookup
+ip multicast-routing 
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+redundancy
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+ ip address 10.1.5.5 255.255.255.255
+ ip router isis ISIS-01
+ ip pim sparse-mode
+!
+interface GigabitEthernet0/0
+ ip address 10.255.2.128 255.255.0.0
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/1
+ ip address 10.2.13.2 255.255.255.0
+ ip router isis ISIS-01
+ ip pim sparse-mode
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/2
+ ip address 192.168.20.1 255.255.255.0
+ no ip redirects
+ no ip proxy-arp
+ ip router isis ISIS-01
+ ip pim sparse-mode
+ duplex auto
+ speed auto
+ media-type rj45
+!
+router isis ISIS-01
+ net 49.0001.0000.0000.0005.00
  is-type level-1
  log-adjacency-changes all
 !
@@ -565,6 +765,7 @@ banner login `
 **************************************************************************`
 !
 line con 0
+ logging synchronous
 line aux 0
 line vty 0 4
  login
@@ -575,19 +776,20 @@ no scheduler allocate
 end</entry>
         </extensions>
         <interface id="0" name="GigabitEthernet0/1"/>
+        <interface id="1" name="GigabitEthernet0/2"/>
     </node>
-    <node name="edge-02" type="SIMPLE" subtype="IOSv" location="704,244">
+    <node name="H1" type="SIMPLE" subtype="IOSv" location="271,264">
         <extensions>
             <entry key="Auto-generate config" type="Boolean">false</entry>
             <entry key="config" type="String">!
-! Last configuration change at 11:39:51 UTC Tue Oct 4 2016
+! Last configuration change at 17:12:59 UTC Tue Oct 4 2016
 !
 version 15.6
 service timestamps debug datetime msec
 service timestamps log datetime msec
 no service password-encryption
 !
-hostname EDGE-02
+hostname H1
 !
 boot-start-marker
 boot-end-marker
@@ -640,9 +842,135 @@ redundancy
 !
 !
 !
-interface Loopback0
- ip address 10.1.5.5 255.255.255.255
- ip router isis ISIS-01
+interface GigabitEthernet0/0
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/1
+ ip address dhcp
+ ip igmp join-group 225.1.1.1
+ duplex auto
+ speed auto
+ media-type rj45
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+!
+!
+!
+!
+control-plane
+!
+banner exec `
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************`
+banner incoming `
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************`
+banner login `
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************`
+!
+line con 0
+ logging synchronous
+line aux 0
+line vty 0 4
+ login
+ transport input none
+!
+no scheduler allocate
+!
+end</entry>
+        </extensions>
+        <interface id="0" name="GigabitEthernet0/1"/>
+    </node>
+    <node name="H2" type="SIMPLE" subtype="IOSv" location="924,253">
+        <extensions>
+            <entry key="Auto-generate config" type="Boolean">false</entry>
+            <entry key="config" type="String">!
+! Last configuration change at 17:13:26 UTC Tue Oct 4 2016
+!
+version 15.6
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname H2
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+ethernet lmi ce
+!
+!
+!
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+no ip domain lookup
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+redundancy
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
 !
 interface GigabitEthernet0/0
  no ip address
@@ -652,16 +980,12 @@ interface GigabitEthernet0/0
  media-type rj45
 !
 interface GigabitEthernet0/1
- ip address 10.2.13.2 255.255.255.0
- ip router isis ISIS-01
+ ip address dhcp
+ no ip redirects
+ no ip proxy-arp
  duplex auto
  speed auto
  media-type rj45
-!
-router isis ISIS-01
- net 49.0001.0000.0000.0005.00
- is-type level-1
- log-adjacency-changes all
 !
 ip forward-protocol nd
 !
@@ -718,4 +1042,6 @@ end</entry>
     <connection dst="/virl:topology/virl:node[3]/virl:interface[1]" src="/virl:topology/virl:node[2]/virl:interface[2]"/>
     <connection dst="/virl:topology/virl:node[4]/virl:interface[1]" src="/virl:topology/virl:node[1]/virl:interface[2]"/>
     <connection dst="/virl:topology/virl:node[5]/virl:interface[1]" src="/virl:topology/virl:node[3]/virl:interface[2]"/>
+    <connection dst="/virl:topology/virl:node[4]/virl:interface[2]" src="/virl:topology/virl:node[6]/virl:interface[1]"/>
+    <connection dst="/virl:topology/virl:node[5]/virl:interface[2]" src="/virl:topology/virl:node[7]/virl:interface[1]"/>
 </topology>
