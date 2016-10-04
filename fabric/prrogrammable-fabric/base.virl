@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<topology xmlns="http://www.cisco.com/VIRL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" schemaVersion="0.9" xsi:schemaLocation="http://www.cisco.com/VIRL https://raw.github.com/CiscoVIRL/schema/v0.9/virl.xsd">
+    <node name="nx-osv-1" type="SIMPLE" subtype="NX-OSv" location="537,136">
+        <extensions>
+            <entry key="Auto-generate config" type="Boolean">false</entry>
+        </extensions>
+        <interface id="0" name="Ethernet2/1"/>
+        <interface id="1" name="Ethernet2/2"/>
+    </node>
+    <node name="nx-osv-2" type="SIMPLE" subtype="NX-OSv" location="440,227">
+        <extensions>
+            <entry key="Auto-generate config" type="Boolean">false</entry>
+        </extensions>
+        <interface id="0" name="Ethernet2/1"/>
+        <interface id="1" name="Ethernet2/2"/>
+        <interface id="2" name="Ethernet2/3"/>
+    </node>
+    <node name="nx-osv-3" type="SIMPLE" subtype="NX-OSv" location="655,228">
+        <extensions>
+            <entry key="Auto-generate config" type="Boolean">false</entry>
+        </extensions>
+        <interface id="0" name="Ethernet2/1"/>
+        <interface id="1" name="Ethernet2/2"/>
+        <interface id="2" name="Ethernet2/3"/>
+    </node>
+    <node name="nx-osv-4" type="SIMPLE" subtype="NX-OSv" location="336,324">
+        <extensions>
+            <entry key="Auto-generate config" type="Boolean">false</entry>
+        </extensions>
+        <interface id="0" name="Ethernet2/1"/>
+    </node>
+    <node name="iosv-1" type="SIMPLE" subtype="IOSv" location="472,316">
+        <extensions>
+            <entry key="Auto-generate config" type="Boolean">false</entry>
+        </extensions>
+        <interface id="0" name="GigabitEthernet0/1"/>
+    </node>
+    <node name="iosv-2" type="SIMPLE" subtype="IOSv" location="662,309">
+        <extensions>
+            <entry key="Auto-generate config" type="Boolean">false</entry>
+        </extensions>
+        <interface id="0" name="GigabitEthernet0/1"/>
+    </node>
+    <node name="iosv-3" type="SIMPLE" subtype="IOSv" location="793,321">
+        <extensions>
+            <entry key="Auto-generate config" type="Boolean">false</entry>
+        </extensions>
+        <interface id="0" name="GigabitEthernet0/1"/>
+    </node>
+    <connection dst="/virl:topology/virl:node[2]/virl:interface[1]" src="/virl:topology/virl:node[1]/virl:interface[1]"/>
+    <connection dst="/virl:topology/virl:node[3]/virl:interface[1]" src="/virl:topology/virl:node[1]/virl:interface[2]"/>
+    <connection dst="/virl:topology/virl:node[4]/virl:interface[1]" src="/virl:topology/virl:node[2]/virl:interface[2]"/>
+    <connection dst="/virl:topology/virl:node[5]/virl:interface[1]" src="/virl:topology/virl:node[2]/virl:interface[3]"/>
+    <connection dst="/virl:topology/virl:node[6]/virl:interface[1]" src="/virl:topology/virl:node[3]/virl:interface[2]"/>
+    <connection dst="/virl:topology/virl:node[7]/virl:interface[1]" src="/virl:topology/virl:node[3]/virl:interface[3]"/>
+</topology>
