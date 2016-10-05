@@ -4,10 +4,11 @@
         <extensions>
             <entry key="Auto-generate config" type="Boolean">false</entry>
             <entry key="config" type="String">!Command: show running-config
-!Time: Wed Oct  5 12:17:30 2016
+!Time: Wed Oct  5 21:59:43 2016
 
 version 7.3(0)D1(1)
 power redundancy-mode redundant
+license grace-period
 
 hostname spine-10
 vdc spine-10 id 1
@@ -23,6 +24,9 @@ vdc spine-10 id 1
   limit-resource m4route-mem minimum 58 maximum 58
   limit-resource m6route-mem minimum 8 maximum 8
 
+feature pim
+feature isis
+
 username admin password 5 $5$Otc7T0NC$K.ulnSZnSyXLrTGNBdtLgZJXEa8EeNx.BrdZ98XyK2C  role network-admin
 no password strength-check
 no ip domain-lookup
@@ -38,7 +42,12 @@ rmon event 3 log description ERROR(3) owner PMON@ERROR
 rmon event 4 log description WARNING(4) owner PMON@WARNING
 rmon event 5 log description INFORMATION(5) owner PMON@INFO
 snmp-server enable traps link
+snmp-server enable traps link cisco-xcvr-mon-status-chg
 
+ip pim send-rp-announce 10.253.1.1 group-list 225.0.0.0/8 scope 10 interval 5 bidir
+ip pim send-rp-discovery loopback0 scope 16
+ip pim ssm range 232.0.0.0/8
+ip pim auto-rp forward listen
 vlan 1
 
 vrf context management
@@ -50,18 +59,24 @@ interface Ethernet2/1
   no switchport
   mac-address 0000.0000.0010
   ip address 10.1.101.10/24
+  ip router isis ISIS-01
+  ip pim sparse-mode
   no shutdown
 
 interface Ethernet2/2
   no switchport
   mac-address 0000.0000.0010
   ip address 10.1.102.10/24
+  ip router isis ISIS-01
+  ip pim sparse-mode
   no shutdown
 
 interface Ethernet2/3
   no switchport
   mac-address 0000.0000.0010
   ip address 10.1.103.10/24
+  ip router isis ISIS-01
+  ip pim sparse-mode
   no shutdown
 
 interface Ethernet2/4
@@ -292,490 +307,500 @@ interface Ethernet2/48
 interface Ethernet3/1
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/2
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/3
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/4
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/5
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/6
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/7
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/8
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/9
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/10
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/11
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/12
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/13
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/14
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/15
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/16
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/17
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/18
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/19
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/20
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/21
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/22
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/23
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/24
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/25
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/26
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/27
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/28
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/29
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/30
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/31
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/32
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/33
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/34
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/35
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/36
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/37
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/38
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/39
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/40
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/41
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/42
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/43
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/44
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/45
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/46
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/47
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/48
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/1
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/2
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/3
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/4
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/5
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/6
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/7
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/8
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/9
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/10
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/11
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/12
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/13
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/14
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/15
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/16
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/17
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/18
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/19
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/20
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/21
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/22
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/23
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/24
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/25
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/26
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/27
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/28
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/29
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/30
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/31
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/32
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/33
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/34
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/35
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/36
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/37
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/38
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/39
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/40
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/41
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/42
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/43
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/44
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/45
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/46
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/47
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/48
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface loopback0
   ip address 10.254.10.10/32
+  ip router isis ISIS-01
+  ip pim sparse-mode
+
+interface loopback1
+  ip address 10.253.1.12/27
+  ip router isis ISIS-01
+  ip pim sparse-mode
 line console
 line vty
 boot kickstart bootflash:/titanium-d1-kickstart.7.3.0.D1.1.bin
 boot system bootflash:/titanium-d1.7.3.0.D1.1.bin 
-no system default switchport shutdown</entry>
+router isis ISIS-01
+  net 49.0001.0000.0000.0010.00
+  is-type level-1
+  log-adjacency-changes</entry>
         </extensions>
         <interface id="0" name="Ethernet2/1"/>
         <interface id="1" name="Ethernet2/2"/>
@@ -785,10 +810,11 @@ no system default switchport shutdown</entry>
         <extensions>
             <entry key="Auto-generate config" type="Boolean">false</entry>
             <entry key="config" type="String">!Command: show running-config
-!Time: Wed Oct  5 12:17:30 2016
+!Time: Wed Oct  5 21:59:41 2016
 
 version 7.3(0)D1(1)
 power redundancy-mode redundant
+license grace-period
 
 hostname spine-20
 vdc spine-20 id 1
@@ -804,6 +830,9 @@ vdc spine-20 id 1
   limit-resource m4route-mem minimum 58 maximum 58
   limit-resource m6route-mem minimum 8 maximum 8
 
+feature pim
+feature isis
+
 username admin password 5 $5$Otc7T0NC$K.ulnSZnSyXLrTGNBdtLgZJXEa8EeNx.BrdZ98XyK2C  role network-admin
 no password strength-check
 no ip domain-lookup
@@ -819,7 +848,12 @@ rmon event 3 log description ERROR(3) owner PMON@ERROR
 rmon event 4 log description WARNING(4) owner PMON@WARNING
 rmon event 5 log description INFORMATION(5) owner PMON@INFO
 snmp-server enable traps link
+snmp-server enable traps link cisco-xcvr-mon-status-chg
 
+ip pim send-rp-announce 10.253.1.1 group-list 225.0.0.0/8 scope 10 interval 5 bidir
+ip pim send-rp-discovery loopback0 scope 16
+ip pim ssm range 232.0.0.0/8
+ip pim auto-rp forward listen
 vlan 1
 
 vrf context management
@@ -831,18 +865,24 @@ interface Ethernet2/1
   no switchport
   mac-address 0000.0000.0020
   ip address 10.2.101.20/24
+  ip router isis ISIS-01
+  ip pim sparse-mode
   no shutdown
 
 interface Ethernet2/2
   no switchport
   mac-address 0000.0000.0010
   ip address 10.2.102.20/24
+  ip router isis ISIS-01
+  ip pim sparse-mode
   no shutdown
 
 interface Ethernet2/3
   no switchport
   mac-address 0000.0000.0010
   ip address 10.2.103.20/24
+  ip router isis ISIS-01
+  ip pim sparse-mode
   no shutdown
 
 interface Ethernet2/4
@@ -1073,490 +1113,500 @@ interface Ethernet2/48
 interface Ethernet3/1
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/2
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/3
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/4
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/5
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/6
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/7
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/8
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/9
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/10
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/11
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/12
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/13
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/14
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/15
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/16
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/17
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/18
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/19
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/20
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/21
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/22
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/23
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/24
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/25
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/26
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/27
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/28
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/29
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/30
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/31
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/32
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/33
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/34
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/35
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/36
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/37
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/38
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/39
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/40
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/41
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/42
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/43
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/44
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/45
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/46
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/47
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/48
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/1
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/2
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/3
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/4
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/5
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/6
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/7
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/8
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/9
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/10
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/11
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/12
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/13
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/14
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/15
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/16
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/17
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/18
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/19
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/20
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/21
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/22
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/23
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/24
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/25
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/26
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/27
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/28
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/29
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/30
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/31
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/32
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/33
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/34
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/35
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/36
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/37
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/38
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/39
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/40
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/41
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/42
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/43
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/44
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/45
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/46
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/47
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/48
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface loopback0
   ip address 10.254.20.20/32
+  ip router isis ISIS-01
+  ip pim sparse-mode
+
+interface loopback1
+  ip address 10.253.1.12/26
+  ip router isis ISIS-01
+  ip pim sparse-mode
 line console
 line vty
 boot kickstart bootflash:/titanium-d1-kickstart.7.3.0.D1.1.bin
 boot system bootflash:/titanium-d1.7.3.0.D1.1.bin 
-no system default switchport shutdown</entry>
+router isis ISIS-01
+  net 49.0001.0000.0000.0020.00
+  is-type level-1
+  log-adjacency-changes</entry>
         </extensions>
         <interface id="0" name="Ethernet2/1"/>
         <interface id="1" name="Ethernet2/2"/>
@@ -1566,10 +1616,11 @@ no system default switchport shutdown</entry>
         <extensions>
             <entry key="Auto-generate config" type="Boolean">false</entry>
             <entry key="config" type="String">!Command: show running-config
-!Time: Wed Oct  5 12:17:31 2016
+!Time: Wed Oct  5 21:59:41 2016
 
 version 7.3(0)D1(1)
 power redundancy-mode redundant
+license grace-period
 
 hostname leaf-101
 vdc leaf-101 id 1
@@ -1585,6 +1636,9 @@ vdc leaf-101 id 1
   limit-resource m4route-mem minimum 58 maximum 58
   limit-resource m6route-mem minimum 8 maximum 8
 
+feature pim
+feature isis
+
 username admin password 5 $5$Otc7T0NC$K.ulnSZnSyXLrTGNBdtLgZJXEa8EeNx.BrdZ98XyK2C  role network-admin
 no password strength-check
 no ip domain-lookup
@@ -1600,7 +1654,10 @@ rmon event 3 log description ERROR(3) owner PMON@ERROR
 rmon event 4 log description WARNING(4) owner PMON@WARNING
 rmon event 5 log description INFORMATION(5) owner PMON@INFO
 snmp-server enable traps link
+snmp-server enable traps link cisco-xcvr-mon-status-chg
 
+ip pim ssm range 232.0.0.0/8
+ip pim auto-rp forward listen
 vlan 1
 
 vrf context management
@@ -1612,18 +1669,24 @@ interface Ethernet2/1
   no switchport
   mac-address 0000.0000.0101
   ip address 10.1.101.101/24
+  ip router isis ISIS-01
+  ip pim sparse-mode
   no shutdown
 
 interface Ethernet2/2
   no switchport
   mac-address 0000.0000.0101
   ip address 10.2.101.101/24
+  ip router isis ISIS-01
+  ip pim sparse-mode
   no shutdown
 
 interface Ethernet2/3
   no switchport
   mac-address 0000.0000.0101
   ip address 192.168.10.1/24
+  ip router isis ISIS-01
+  ip pim sparse-mode
   no shutdown
 
 interface Ethernet2/4
@@ -1854,490 +1917,495 @@ interface Ethernet2/48
 interface Ethernet3/1
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/2
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/3
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/4
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/5
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/6
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/7
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/8
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/9
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/10
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/11
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/12
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/13
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/14
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/15
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/16
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/17
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/18
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/19
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/20
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/21
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/22
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/23
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/24
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/25
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/26
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/27
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/28
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/29
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/30
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/31
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/32
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/33
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/34
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/35
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/36
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/37
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/38
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/39
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/40
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/41
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/42
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/43
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/44
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/45
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/46
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/47
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/48
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/1
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/2
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/3
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/4
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/5
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/6
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/7
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/8
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/9
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/10
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/11
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/12
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/13
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/14
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/15
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/16
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/17
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/18
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/19
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/20
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/21
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/22
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/23
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/24
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/25
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/26
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/27
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/28
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/29
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/30
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/31
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/32
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/33
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/34
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/35
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/36
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/37
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/38
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/39
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/40
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/41
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/42
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/43
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/44
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/45
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/46
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/47
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/48
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface loopback0
   ip address 10.254.101.101/32
+  ip router isis ISIS-01
+  ip pim sparse-mode
 line console
 line vty
 boot kickstart bootflash:/titanium-d1-kickstart.7.3.0.D1.1.bin
 boot system bootflash:/titanium-d1.7.3.0.D1.1.bin 
-no system default switchport shutdown</entry>
+router isis ISIS-01
+  net 49.0001.0000.0000.0101.00
+  is-type level-1
+  log-adjacency-changes</entry>
         </extensions>
         <interface id="0" name="Ethernet2/1"/>
         <interface id="1" name="Ethernet2/2"/>
@@ -2347,10 +2415,11 @@ no system default switchport shutdown</entry>
         <extensions>
             <entry key="Auto-generate config" type="Boolean">false</entry>
             <entry key="config" type="String">!Command: show running-config
-!Time: Wed Oct  5 12:17:30 2016
+!Time: Wed Oct  5 21:59:50 2016
 
 version 7.3(0)D1(1)
 power redundancy-mode redundant
+license grace-period
 
 hostname leaf-102
 vdc leaf-102 id 1
@@ -2366,6 +2435,9 @@ vdc leaf-102 id 1
   limit-resource m4route-mem minimum 58 maximum 58
   limit-resource m6route-mem minimum 8 maximum 8
 
+feature pim
+feature isis
+
 username admin password 5 $5$Otc7T0NC$K.ulnSZnSyXLrTGNBdtLgZJXEa8EeNx.BrdZ98XyK2C  role network-admin
 no password strength-check
 no ip domain-lookup
@@ -2381,7 +2453,10 @@ rmon event 3 log description ERROR(3) owner PMON@ERROR
 rmon event 4 log description WARNING(4) owner PMON@WARNING
 rmon event 5 log description INFORMATION(5) owner PMON@INFO
 snmp-server enable traps link
+snmp-server enable traps link cisco-xcvr-mon-status-chg
 
+ip pim ssm range 232.0.0.0/8
+ip pim auto-rp forward listen
 vlan 1
 
 vrf context management
@@ -2393,18 +2468,24 @@ interface Ethernet2/1
   no switchport
   mac-address 0000.0000.0102
   ip address 10.1.102.102/24
+  ip router isis ISIS-01
+  ip pim sparse-mode
   no shutdown
 
 interface Ethernet2/2
   no switchport
   mac-address 0000.0000.0101
   ip address 10.2.102.102/24
+  ip router isis ISIS-01
+  ip pim sparse-mode
   no shutdown
 
 interface Ethernet2/3
   no switchport
   mac-address 0000.0000.0102
   ip address 192.168.20.1/24
+  ip router isis ISIS-01
+  ip pim sparse-mode
   no shutdown
 
 interface Ethernet2/4
@@ -2635,490 +2716,399 @@ interface Ethernet2/48
 interface Ethernet3/1
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/2
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/3
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/4
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/5
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/6
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/7
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/8
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/9
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/10
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/11
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/12
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/13
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/14
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/15
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/16
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/17
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/18
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/19
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/20
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/21
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/22
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/23
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/24
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/25
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/26
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/27
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/28
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/29
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/30
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/31
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/32
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/33
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/34
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/35
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/36
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/37
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/38
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/39
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/40
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/41
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/42
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/43
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/44
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/45
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/46
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/47
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet3/48
   shutdown
   no switchport
-  mac-address 0000.0000.002f
+  medium p2p
 
 interface Ethernet4/1
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet4/2
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet4/3
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet4/4
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet4/5
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet4/6
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet4/7
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet4/8
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet4/9
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet4/10
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet4/11
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet4/12
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet4/13
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet4/14
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet4/15
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet4/16
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet4/17
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet4/18
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet4/19
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet4/20
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet4/21
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet4/22
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet4/23
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet4/24
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet4/25
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet4/26
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet4/27
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet4/28
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet4/29
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet4/30
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet4/31
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet4/32
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet4/33
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet4/34
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet4/35
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet4/36
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet4/37
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet4/38
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet4/39
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet4/40
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet4/41
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet4/42
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet4/43
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet4/44
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet4/45
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet4/46
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet4/47
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet4/48
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface loopback0
   ip address 10.254.102.102/32
+  ip router isis ISIS-01
+  ip pim sparse-mode
 line console
 line vty
 boot kickstart bootflash:/titanium-d1-kickstart.7.3.0.D1.1.bin
 boot system bootflash:/titanium-d1.7.3.0.D1.1.bin 
-no system default switchport shutdown</entry>
+router isis ISIS-01
+  net 49.0001.0000.0000.0102.00
+  is-type level-1
+  log-adjacency-changes</entry>
         </extensions>
         <interface id="0" name="Ethernet2/1"/>
         <interface id="1" name="Ethernet2/2"/>
@@ -3128,10 +3118,11 @@ no system default switchport shutdown</entry>
         <extensions>
             <entry key="Auto-generate config" type="Boolean">false</entry>
             <entry key="config" type="String">!Command: show running-config
-!Time: Wed Oct  5 12:17:31 2016
+!Time: Wed Oct  5 21:59:42 2016
 
 version 7.3(0)D1(1)
 power redundancy-mode redundant
+license grace-period
 
 hostname leaf-103
 vdc leaf-103 id 1
@@ -3147,6 +3138,9 @@ vdc leaf-103 id 1
   limit-resource m4route-mem minimum 58 maximum 58
   limit-resource m6route-mem minimum 8 maximum 8
 
+feature pim
+feature isis
+
 username admin password 5 $5$Otc7T0NC$K.ulnSZnSyXLrTGNBdtLgZJXEa8EeNx.BrdZ98XyK2C  role network-admin
 no password strength-check
 no ip domain-lookup
@@ -3162,7 +3156,10 @@ rmon event 3 log description ERROR(3) owner PMON@ERROR
 rmon event 4 log description WARNING(4) owner PMON@WARNING
 rmon event 5 log description INFORMATION(5) owner PMON@INFO
 snmp-server enable traps link
+snmp-server enable traps link cisco-xcvr-mon-status-chg
 
+ip pim ssm range 232.0.0.0/8
+ip pim auto-rp forward listen
 vlan 1
 
 vrf context management
@@ -3174,18 +3171,24 @@ interface Ethernet2/1
   no switchport
   mac-address 0000.0000.0103
   ip address 10.1.103.103/24
+  ip router isis ISIS-01
+  ip pim sparse-mode
   no shutdown
 
 interface Ethernet2/2
   no switchport
   mac-address 0000.0000.0103
   ip address 10.2.103.103/24
+  ip router isis ISIS-01
+  ip pim sparse-mode
   no shutdown
 
 interface Ethernet2/3
   no switchport
   mac-address 0000.0000.0103
   ip address 192.168.30.1/24
+  ip router isis ISIS-01
+  ip pim sparse-mode
   no shutdown
 
 interface Ethernet2/4
@@ -3414,492 +3417,305 @@ interface Ethernet2/48
   mac-address 0000.0000.002f
 
 interface Ethernet3/1
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet3/2
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet3/3
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet3/4
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet3/5
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet3/6
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet3/7
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet3/8
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet3/9
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet3/10
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet3/11
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet3/12
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet3/13
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet3/14
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet3/15
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet3/16
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet3/17
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet3/18
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet3/19
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet3/20
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet3/21
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet3/22
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet3/23
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet3/24
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet3/25
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet3/26
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet3/27
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet3/28
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet3/29
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet3/30
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet3/31
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet3/32
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet3/33
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet3/34
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet3/35
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet3/36
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet3/37
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet3/38
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet3/39
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet3/40
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet3/41
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet3/42
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet3/43
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet3/44
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet3/45
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet3/46
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet3/47
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet3/48
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet4/1
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet4/2
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet4/3
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet4/4
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet4/5
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet4/6
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet4/7
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet4/8
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet4/9
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet4/10
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet4/11
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet4/12
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet4/13
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet4/14
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet4/15
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet4/16
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet4/17
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet4/18
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet4/19
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet4/20
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet4/21
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet4/22
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet4/23
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet4/24
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet4/25
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet4/26
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet4/27
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet4/28
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet4/29
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet4/30
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet4/31
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet4/32
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet4/33
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet4/34
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet4/35
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet4/36
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet4/37
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet4/38
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet4/39
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet4/40
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet4/41
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet4/42
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet4/43
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet4/44
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet4/45
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet4/46
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet4/47
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface Ethernet4/48
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  switchport
 
 interface loopback0
   ip address 10.254.103.103/32
+  ip router isis ISIS-01
+  ip pim sparse-mode
 line console
 line vty
 boot kickstart bootflash:/titanium-d1-kickstart.7.3.0.D1.1.bin
 boot system bootflash:/titanium-d1.7.3.0.D1.1.bin 
-no system default switchport shutdown</entry>
+router isis ISIS-01
+  net 49.0001.0000.0000.0103.00
+  is-type level-1
+  log-adjacency-changes</entry>
         </extensions>
         <interface id="0" name="Ethernet2/1"/>
         <interface id="1" name="Ethernet2/2"/>
@@ -3909,7 +3725,7 @@ no system default switchport shutdown</entry>
         <extensions>
             <entry key="Auto-generate config" type="Boolean">false</entry>
             <entry key="config" type="String">!
-! Last configuration change at 12:17:20 UTC Wed Oct 5 2016
+! Last configuration change at 21:58:20 UTC Wed Oct 5 2016
 !
 version 15.6
 service timestamps debug datetime msec
@@ -3970,7 +3786,7 @@ redundancy
 !
 !
 interface GigabitEthernet0/0
- no ip address
+ ip address 10.255.2.178 255.255.0.0
  shutdown
  duplex auto
  speed auto
@@ -3980,6 +3796,11 @@ interface GigabitEthernet0/1
  ip address 192.168.10.2 255.255.255.0
  no ip redirects
  no ip proxy-arp
+ ip igmp join-group 225.1.1.5
+ ip igmp join-group 225.1.1.4
+ ip igmp join-group 225.1.1.3
+ ip igmp join-group 225.1.1.2
+ ip igmp join-group 225.1.1.1
  duplex auto
  speed auto
  media-type rj45
@@ -4040,7 +3861,7 @@ end</entry>
         <extensions>
             <entry key="Auto-generate config" type="Boolean">false</entry>
             <entry key="config" type="String">!
-! Last configuration change at 12:17:18 UTC Wed Oct 5 2016
+! Last configuration change at 21:57:57 UTC Wed Oct 5 2016
 !
 version 15.6
 service timestamps debug datetime msec
@@ -4101,7 +3922,7 @@ redundancy
 !
 !
 interface GigabitEthernet0/0
- no ip address
+ ip address 10.255.2.179 255.255.0.0
  shutdown
  duplex auto
  speed auto
@@ -4111,6 +3932,7 @@ interface GigabitEthernet0/1
  ip address 192.168.20.2 255.255.255.0
  no ip redirects
  no ip proxy-arp
+ ip igmp join-group 225.1.1.1
  duplex auto
  speed auto
  media-type rj45
@@ -4171,7 +3993,7 @@ end</entry>
         <extensions>
             <entry key="Auto-generate config" type="Boolean">false</entry>
             <entry key="config" type="String">!
-! Last configuration change at 12:17:17 UTC Wed Oct 5 2016
+! Last configuration change at 21:58:09 UTC Wed Oct 5 2016
 !
 version 15.6
 service timestamps debug datetime msec
@@ -4232,7 +4054,7 @@ redundancy
 !
 !
 interface GigabitEthernet0/0
- no ip address
+ ip address 10.255.2.180 255.255.0.0
  shutdown
  duplex auto
  speed auto
