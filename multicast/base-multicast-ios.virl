@@ -4,7 +4,7 @@
         <extensions>
             <entry key="Auto-generate config" type="Boolean">false</entry>
             <entry key="config" type="String">!
-! Last configuration change at 17:12:26 UTC Tue Oct 4 2016
+! Last configuration change at 11:14:58 UTC Wed Oct 5 2016
 !
 version 15.6
 service timestamps debug datetime msec
@@ -71,7 +71,7 @@ interface Loopback0
  ip pim sparse-mode
 !
 interface GigabitEthernet0/0
- ip address 10.255.2.134 255.255.0.0
+ ip address 10.255.2.142 255.255.0.0
  shutdown
  duplex auto
  speed auto
@@ -103,8 +103,8 @@ ip forward-protocol nd
 !
 no ip http server
 no ip http secure-server
+ip pim bidir-enable
 ip pim autorp listener
-ip pim send-rp-announce Loopback0 scope 10 interval 10
 !
 !
 !
@@ -157,7 +157,7 @@ end</entry>
         <extensions>
             <entry key="Auto-generate config" type="Boolean">false</entry>
             <entry key="config" type="String">!
-! Last configuration change at 17:13:21 UTC Tue Oct 4 2016
+! Last configuration change at 11:15:54 UTC Wed Oct 5 2016
 !
 version 15.6
 service timestamps debug datetime msec
@@ -219,12 +219,12 @@ redundancy
 !
 !
 interface Loopback0
- ip address 10.1.1.1 255.255.255.255
+ ip address 10.1.111.111 255.255.255.255
  ip router isis ISIS-01
  ip pim sparse-mode
 !
 interface GigabitEthernet0/0
- ip address 10.255.2.130 255.255.0.0
+ ip address 10.255.2.138 255.255.0.0
  shutdown
  duplex auto
  speed auto
@@ -234,6 +234,8 @@ interface GigabitEthernet0/1
  ip address 10.2.11.1 255.255.255.0
  ip router isis ISIS-01
  ip pim sparse-mode
+ no ip mfib cef input
+ no ip mfib cef output
  duplex auto
  speed auto
  media-type rj45
@@ -242,6 +244,8 @@ interface GigabitEthernet0/2
  ip address 10.2.12.1 255.255.255.0
  ip router isis ISIS-01
  ip pim sparse-mode
+ no ip mfib cef input
+ no ip mfib cef output
  duplex auto
  speed auto
  media-type rj45
@@ -256,8 +260,10 @@ ip forward-protocol nd
 !
 no ip http server
 no ip http secure-server
+ip pim bidir-enable
 ip pim autorp listener
-ip pim send-rp-discovery Loopback0 scope 5 interval 10
+ip pim send-rp-announce Loopback0 scope 4 interval 10 bidir
+ip pim send-rp-discovery Loopback0 scope 4 interval 10
 !
 !
 !
@@ -310,7 +316,7 @@ end</entry>
         <extensions>
             <entry key="Auto-generate config" type="Boolean">false</entry>
             <entry key="config" type="String">!
-! Last configuration change at 17:12:52 UTC Tue Oct 4 2016
+! Last configuration change at 11:17:13 UTC Wed Oct 5 2016
 !
 version 15.6
 service timestamps debug datetime msec
@@ -377,7 +383,7 @@ interface Loopback0
  ip pim sparse-mode
 !
 interface GigabitEthernet0/0
- ip address 10.255.2.133 255.255.0.0
+ ip address 10.255.2.141 255.255.0.0
  shutdown
  duplex auto
  speed auto
@@ -409,8 +415,8 @@ ip forward-protocol nd
 !
 no ip http server
 no ip http secure-server
+ip pim bidir-enable
 ip pim autorp listener
-ip pim send-rp-announce Loopback0 scope 10 interval 10
 !
 !
 !
@@ -463,7 +469,7 @@ end</entry>
         <extensions>
             <entry key="Auto-generate config" type="Boolean">false</entry>
             <entry key="config" type="String">!
-! Last configuration change at 17:12:51 UTC Tue Oct 4 2016
+! Last configuration change at 11:16:46 UTC Wed Oct 5 2016
 !
 version 15.6
 service timestamps debug datetime msec
@@ -536,7 +542,7 @@ interface Loopback0
  ip pim sparse-mode
 !
 interface GigabitEthernet0/0
- ip address 10.255.2.129 255.255.0.0
+ ip address 10.255.2.137 255.255.0.0
  shutdown
  duplex auto
  speed auto
@@ -570,6 +576,7 @@ ip forward-protocol nd
 !
 no ip http server
 no ip http secure-server
+ip pim bidir-enable
 ip pim autorp listener
 !
 !
@@ -623,7 +630,7 @@ end</entry>
         <extensions>
             <entry key="Auto-generate config" type="Boolean">false</entry>
             <entry key="config" type="String">!
-! Last configuration change at 17:12:31 UTC Tue Oct 4 2016
+! Last configuration change at 11:14:44 UTC Wed Oct 5 2016
 !
 version 15.6
 service timestamps debug datetime msec
@@ -696,7 +703,7 @@ interface Loopback0
  ip pim sparse-mode
 !
 interface GigabitEthernet0/0
- ip address 10.255.2.128 255.255.0.0
+ ip address 10.255.2.136 255.255.0.0
  shutdown
  duplex auto
  speed auto
@@ -730,6 +737,8 @@ ip forward-protocol nd
 !
 no ip http server
 no ip http secure-server
+ip pim bidir-enable
+ip pim autorp listener
 !
 !
 !
@@ -782,7 +791,7 @@ end</entry>
         <extensions>
             <entry key="Auto-generate config" type="Boolean">false</entry>
             <entry key="config" type="String">!
-! Last configuration change at 17:12:59 UTC Tue Oct 4 2016
+! Last configuration change at 11:18:11 UTC Wed Oct 5 2016
 !
 version 15.6
 service timestamps debug datetime msec
@@ -843,7 +852,7 @@ redundancy
 !
 !
 interface GigabitEthernet0/0
- no ip address
+ ip address 10.255.2.139 255.255.0.0
  shutdown
  duplex auto
  speed auto
@@ -912,7 +921,7 @@ end</entry>
         <extensions>
             <entry key="Auto-generate config" type="Boolean">false</entry>
             <entry key="config" type="String">!
-! Last configuration change at 17:13:26 UTC Tue Oct 4 2016
+! Last configuration change at 11:18:55 UTC Wed Oct 5 2016
 !
 version 15.6
 service timestamps debug datetime msec
@@ -973,7 +982,7 @@ redundancy
 !
 !
 interface GigabitEthernet0/0
- no ip address
+ ip address 10.255.2.140 255.255.0.0
  shutdown
  duplex auto
  speed auto
@@ -983,6 +992,7 @@ interface GigabitEthernet0/1
  ip address dhcp
  no ip redirects
  no ip proxy-arp
+ ip igmp join-group 226.1.1.1
  duplex auto
  speed auto
  media-type rj45
