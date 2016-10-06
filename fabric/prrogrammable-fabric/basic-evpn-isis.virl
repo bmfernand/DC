@@ -4,15 +4,17 @@
         <extensions>
             <entry key="Auto-generate config" type="Boolean">false</entry>
             <entry key="config" type="String">!Command: show running-config
-!Time: Thu Oct  6 21:48:32 2016
+!Time: Thu Oct  6 22:10:53 2016
 
 version 7.3(0)D1(1)
 power redundancy-mode redundant
 license grace-period
 
 hostname spine-10
+install feature-set fabric
 vdc spine-10 id 1
   limit-resource module-type m1 m1xl m2xl f2e 
+  allow feature-set fabric
   allocate interface Ethernet2/1-48
   allocate interface Ethernet3/1-48
   allocate interface Ethernet4/1-48
@@ -23,10 +25,16 @@ vdc spine-10 id 1
   limit-resource u6route-mem minimum 24 maximum 24
   limit-resource m4route-mem minimum 58 maximum 58
   limit-resource m6route-mem minimum 8 maximum 8
+feature-set fabric
 
+feature fabric forwarding
+nv overlay evpn
 feature bgp
 feature pim
 feature isis
+feature interface-vlan
+feature vn-segment-vlan-based
+feature nv overlay
 
 username admin password 5 $5$Otc7T0NC$K.ulnSZnSyXLrTGNBdtLgZJXEa8EeNx.BrdZ98XyK2C  role network-admin
 no password strength-check
@@ -56,6 +64,8 @@ vrf context management
 
 interface mgmt0
   vrf member management
+
+interface Vlan1
 
 interface Ethernet2/1
   no switchport
@@ -804,15 +814,23 @@ router isis ISIS-01
   log-adjacency-changes
 router bgp 65500
   router-id 10.254.10.10
+  timers bgp 10 30
+  log-neighbor-changes
   neighbor 10.254.101.101
     remote-as 65500
     update-source loopback0
+    address-family l2vpn evpn
+      route-reflector-client
   neighbor 10.254.102.102
     remote-as 65500
     update-source loopback0
+    address-family l2vpn evpn
+      route-reflector-client
   neighbor 10.254.103.103
     remote-as 65500
     update-source loopback0
+    address-family l2vpn evpn
+      route-reflector-client
 no system default switchport shutdown</entry>
         </extensions>
         <interface id="0" name="Ethernet2/1"/>
@@ -823,15 +841,17 @@ no system default switchport shutdown</entry>
         <extensions>
             <entry key="Auto-generate config" type="Boolean">false</entry>
             <entry key="config" type="String">!Command: show running-config
-!Time: Thu Oct  6 21:48:33 2016
+!Time: Thu Oct  6 22:10:55 2016
 
 version 7.3(0)D1(1)
 power redundancy-mode redundant
 license grace-period
 
 hostname spine-20
+install feature-set fabric
 vdc spine-20 id 1
   limit-resource module-type m1 m1xl m2xl f2e 
+  allow feature-set fabric
   allocate interface Ethernet2/1-48
   allocate interface Ethernet3/1-48
   allocate interface Ethernet4/1-48
@@ -842,10 +862,16 @@ vdc spine-20 id 1
   limit-resource u6route-mem minimum 24 maximum 24
   limit-resource m4route-mem minimum 58 maximum 58
   limit-resource m6route-mem minimum 8 maximum 8
+feature-set fabric
 
+feature fabric forwarding
+nv overlay evpn
 feature bgp
 feature pim
 feature isis
+feature interface-vlan
+feature vn-segment-vlan-based
+feature nv overlay
 
 username admin password 5 $5$Otc7T0NC$K.ulnSZnSyXLrTGNBdtLgZJXEa8EeNx.BrdZ98XyK2C  role network-admin
 no password strength-check
@@ -875,6 +901,8 @@ vrf context management
 
 interface mgmt0
   vrf member management
+
+interface Vlan1
 
 interface Ethernet2/1
   no switchport
@@ -1623,15 +1651,23 @@ router isis ISIS-01
   log-adjacency-changes
 router bgp 65500
   router-id 10.254.20.20
+  timers bgp 10 30
+  log-neighbor-changes
   neighbor 10.254.101.101
     remote-as 65500
     update-source loopback0
+    address-family l2vpn evpn
+      route-reflector-client
   neighbor 10.254.102.102
     remote-as 65500
     update-source loopback0
+    address-family l2vpn evpn
+      route-reflector-client
   neighbor 10.254.103.103
     remote-as 65500
     update-source loopback0
+    address-family l2vpn evpn
+      route-reflector-client
 no system default switchport shutdown</entry>
         </extensions>
         <interface id="0" name="Ethernet2/1"/>
@@ -1642,15 +1678,17 @@ no system default switchport shutdown</entry>
         <extensions>
             <entry key="Auto-generate config" type="Boolean">false</entry>
             <entry key="config" type="String">!Command: show running-config
-!Time: Thu Oct  6 21:48:32 2016
+!Time: Thu Oct  6 22:10:53 2016
 
 version 7.3(0)D1(1)
 power redundancy-mode redundant
 license grace-period
 
 hostname leaf-101
+install feature-set fabric
 vdc leaf-101 id 1
   limit-resource module-type m1 m1xl m2xl f2e 
+  allow feature-set fabric
   allocate interface Ethernet2/1-48
   allocate interface Ethernet3/1-48
   allocate interface Ethernet4/1-48
@@ -1661,10 +1699,16 @@ vdc leaf-101 id 1
   limit-resource u6route-mem minimum 24 maximum 24
   limit-resource m4route-mem minimum 58 maximum 58
   limit-resource m6route-mem minimum 8 maximum 8
+feature-set fabric
 
+feature fabric forwarding
+nv overlay evpn
 feature bgp
 feature pim
 feature isis
+feature interface-vlan
+feature vn-segment-vlan-based
+feature nv overlay
 
 username admin password 5 $5$Otc7T0NC$K.ulnSZnSyXLrTGNBdtLgZJXEa8EeNx.BrdZ98XyK2C  role network-admin
 no password strength-check
@@ -1690,6 +1734,8 @@ vrf context management
 
 interface mgmt0
   vrf member management
+
+interface Vlan1
 
 interface Ethernet2/1
   no switchport
@@ -2431,6 +2477,16 @@ router isis ISIS-01
   log-adjacency-changes
 router bgp 65500
   router-id 10.254.101.101
+  timers bgp 10 30
+  log-neighbor-changes
+  neighbor 10.254.10.10
+    remote-as 65500
+    update-source loopback0
+    address-family l2vpn evpn
+  neighbor 10.254.20.20
+    remote-as 65500
+    update-source loopback0
+    address-family l2vpn evpn
 no system default switchport shutdown</entry>
         </extensions>
         <interface id="0" name="Ethernet2/1"/>
@@ -2442,15 +2498,17 @@ no system default switchport shutdown</entry>
         <extensions>
             <entry key="Auto-generate config" type="Boolean">false</entry>
             <entry key="config" type="String">!Command: show running-config
-!Time: Thu Oct  6 21:48:32 2016
+!Time: Thu Oct  6 22:10:53 2016
 
 version 7.3(0)D1(1)
 power redundancy-mode redundant
 license grace-period
 
 hostname leaf-102
+install feature-set fabric
 vdc leaf-102 id 1
   limit-resource module-type m1 m1xl m2xl f2e 
+  allow feature-set fabric
   allocate interface Ethernet2/1-48
   allocate interface Ethernet3/1-48
   allocate interface Ethernet4/1-48
@@ -2461,10 +2519,16 @@ vdc leaf-102 id 1
   limit-resource u6route-mem minimum 24 maximum 24
   limit-resource m4route-mem minimum 58 maximum 58
   limit-resource m6route-mem minimum 8 maximum 8
+feature-set fabric
 
+feature fabric forwarding
+nv overlay evpn
 feature bgp
 feature pim
 feature isis
+feature interface-vlan
+feature vn-segment-vlan-based
+feature nv overlay
 
 username admin password 5 $5$Otc7T0NC$K.ulnSZnSyXLrTGNBdtLgZJXEa8EeNx.BrdZ98XyK2C  role network-admin
 no password strength-check
@@ -2490,6 +2554,8 @@ vrf context management
 
 interface mgmt0
   vrf member management
+
+interface Vlan1
 
 interface Ethernet2/1
   no switchport
@@ -3231,6 +3297,16 @@ router isis ISIS-01
   log-adjacency-changes
 router bgp 65500
   router-id 10.254.102.102
+  timers bgp 10 30
+  log-neighbor-changes
+  neighbor 10.254.10.10
+    remote-as 65500
+    update-source loopback0
+    address-family l2vpn evpn
+  neighbor 10.254.20.20
+    remote-as 65500
+    update-source loopback0
+    address-family l2vpn evpn
 no system default switchport shutdown</entry>
         </extensions>
         <interface id="0" name="Ethernet2/1"/>
@@ -3243,15 +3319,17 @@ no system default switchport shutdown</entry>
         <extensions>
             <entry key="Auto-generate config" type="Boolean">false</entry>
             <entry key="config" type="String">!Command: show running-config
-!Time: Thu Oct  6 21:48:33 2016
+!Time: Thu Oct  6 22:10:53 2016
 
 version 7.3(0)D1(1)
 power redundancy-mode redundant
 license grace-period
 
 hostname leaf-103
+install feature-set fabric
 vdc leaf-103 id 1
   limit-resource module-type m1 m1xl m2xl f2e 
+  allow feature-set fabric
   allocate interface Ethernet2/1-48
   allocate interface Ethernet3/1-48
   allocate interface Ethernet4/1-48
@@ -3262,10 +3340,16 @@ vdc leaf-103 id 1
   limit-resource u6route-mem minimum 24 maximum 24
   limit-resource m4route-mem minimum 58 maximum 58
   limit-resource m6route-mem minimum 8 maximum 8
+feature-set fabric
 
+feature fabric forwarding
+nv overlay evpn
 feature bgp
 feature pim
 feature isis
+feature interface-vlan
+feature vn-segment-vlan-based
+feature nv overlay
 
 username admin password 5 $5$Otc7T0NC$K.ulnSZnSyXLrTGNBdtLgZJXEa8EeNx.BrdZ98XyK2C  role network-admin
 no password strength-check
@@ -3291,6 +3375,8 @@ vrf context management
 
 interface mgmt0
   vrf member management
+
+interface Vlan1
 
 interface Ethernet2/1
   no switchport
@@ -4032,6 +4118,16 @@ router isis ISIS-01
   log-adjacency-changes
 router bgp 65500
   router-id 10.254.103.103
+  timers bgp 10 30
+  log-neighbor-changes
+  neighbor 10.254.10.10
+    remote-as 65500
+    update-source loopback0
+    address-family l2vpn evpn
+  neighbor 10.254.20.20
+    remote-as 65500
+    update-source loopback0
+    address-family l2vpn evpn
 no system default switchport shutdown</entry>
         </extensions>
         <interface id="0" name="Ethernet2/1"/>
@@ -4043,7 +4139,7 @@ no system default switchport shutdown</entry>
         <extensions>
             <entry key="Auto-generate config" type="Boolean">false</entry>
             <entry key="config" type="String">!Command: show running-config
-!Time: Thu Oct  6 21:49:33 2016
+!Time: Thu Oct  6 22:12:10 2016
 
 version 7.3(0)D1(1)
 power redundancy-mode redundant
@@ -4816,7 +4912,7 @@ no system default switchport shutdown</entry>
         <extensions>
             <entry key="Auto-generate config" type="Boolean">false</entry>
             <entry key="config" type="String">!
-! Last configuration change at 21:48:00 UTC Thu Oct 6 2016
+! Last configuration change at 22:10:13 UTC Thu Oct 6 2016
 !
 version 15.6
 service timestamps debug datetime msec
@@ -4961,7 +5057,7 @@ end</entry>
         <extensions>
             <entry key="Auto-generate config" type="Boolean">false</entry>
             <entry key="config" type="String">!
-! Last configuration change at 21:47:56 UTC Thu Oct 6 2016
+! Last configuration change at 22:10:10 UTC Thu Oct 6 2016
 !
 version 15.6
 service timestamps debug datetime msec
@@ -5106,7 +5202,7 @@ end</entry>
         <extensions>
             <entry key="Auto-generate config" type="Boolean">false</entry>
             <entry key="config" type="String">!
-! Last configuration change at 21:48:03 UTC Thu Oct 6 2016
+! Last configuration change at 22:10:18 UTC Thu Oct 6 2016
 !
 version 15.6
 service timestamps debug datetime msec
@@ -5235,7 +5331,7 @@ end</entry>
         <extensions>
             <entry key="Auto-generate config" type="Boolean">false</entry>
             <entry key="config" type="String">!
-! Last configuration change at 21:48:03 UTC Thu Oct 6 2016
+! Last configuration change at 22:10:15 UTC Thu Oct 6 2016
 !
 version 15.6
 service timestamps debug datetime msec
@@ -5364,7 +5460,7 @@ end</entry>
         <extensions>
             <entry key="Auto-generate config" type="Boolean">false</entry>
             <entry key="config" type="String">!
-! Last configuration change at 21:48:15 UTC Thu Oct 6 2016
+! Last configuration change at 22:10:30 UTC Thu Oct 6 2016
 !
 version 15.6
 service timestamps debug datetime msec
