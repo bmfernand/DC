@@ -4,7 +4,7 @@
         <extensions>
             <entry key="Auto-generate config" type="Boolean">false</entry>
             <entry key="config" type="String">!Command: show running-config
-!Time: Thu Oct  6 22:10:53 2016
+!Time: Thu Oct  6 23:17:42 2016
 
 version 7.3(0)D1(1)
 power redundancy-mode redundant
@@ -803,6 +803,7 @@ interface loopback0
 
 interface loopback1
   ip address 10.253.1.1/32
+  ip router isis ISIS-01
   ip pim sparse-mode
 line console
 line vty
@@ -816,20 +817,24 @@ router bgp 65500
   router-id 10.254.10.10
   timers bgp 10 30
   log-neighbor-changes
+  address-family l2vpn evpn
   neighbor 10.254.101.101
     remote-as 65500
     update-source loopback0
     address-family l2vpn evpn
+      send-community both
       route-reflector-client
   neighbor 10.254.102.102
     remote-as 65500
     update-source loopback0
     address-family l2vpn evpn
+      send-community both
       route-reflector-client
   neighbor 10.254.103.103
     remote-as 65500
     update-source loopback0
     address-family l2vpn evpn
+      send-community both
       route-reflector-client
 no system default switchport shutdown</entry>
         </extensions>
@@ -841,7 +846,7 @@ no system default switchport shutdown</entry>
         <extensions>
             <entry key="Auto-generate config" type="Boolean">false</entry>
             <entry key="config" type="String">!Command: show running-config
-!Time: Thu Oct  6 22:10:55 2016
+!Time: Thu Oct  6 23:17:44 2016
 
 version 7.3(0)D1(1)
 power redundancy-mode redundant
@@ -1640,6 +1645,7 @@ interface loopback0
 
 interface loopback1
   ip address 10.253.1.1/32
+  ip router isis ISIS-01
   ip pim sparse-mode
 line console
 line vty
@@ -1653,20 +1659,24 @@ router bgp 65500
   router-id 10.254.20.20
   timers bgp 10 30
   log-neighbor-changes
+  address-family l2vpn evpn
   neighbor 10.254.101.101
     remote-as 65500
     update-source loopback0
     address-family l2vpn evpn
+      send-community both
       route-reflector-client
   neighbor 10.254.102.102
     remote-as 65500
     update-source loopback0
     address-family l2vpn evpn
+      send-community both
       route-reflector-client
   neighbor 10.254.103.103
     remote-as 65500
     update-source loopback0
     address-family l2vpn evpn
+      send-community both
       route-reflector-client
 no system default switchport shutdown</entry>
         </extensions>
@@ -1678,7 +1688,7 @@ no system default switchport shutdown</entry>
         <extensions>
             <entry key="Auto-generate config" type="Boolean">false</entry>
             <entry key="config" type="String">!Command: show running-config
-!Time: Thu Oct  6 22:10:53 2016
+!Time: Thu Oct  6 23:17:41 2016
 
 version 7.3(0)D1(1)
 power redundancy-mode redundant
@@ -1728,7 +1738,10 @@ snmp-server enable traps link
 
 ip pim ssm range 232.0.0.0/8
 ip pim auto-rp listen forward
-vlan 1
+vlan 1,10
+vlan 10
+  name VID:10-30000
+  vn-segment 30000
 
 vrf context management
 
@@ -1736,6 +1749,13 @@ interface mgmt0
   vrf member management
 
 interface Vlan1
+
+interface nve1
+  no shutdown
+  source-interface loopback0
+  host-reachability protocol bgp
+  member vni 30000
+    mcast-group 225.1.1.1
 
 interface Ethernet2/1
   no switchport
@@ -1760,9 +1780,11 @@ interface Ethernet2/3
   ip router isis ISIS-01
 
 interface Ethernet2/4
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  description H1
+  switchport
+  switchport access vlan 10
+  spanning-tree port type edge
+  no shutdown
 
 interface Ethernet2/5
   shutdown
@@ -2479,14 +2501,22 @@ router bgp 65500
   router-id 10.254.101.101
   timers bgp 10 30
   log-neighbor-changes
+  address-family l2vpn evpn
   neighbor 10.254.10.10
     remote-as 65500
     update-source loopback0
     address-family l2vpn evpn
+      send-community both
   neighbor 10.254.20.20
     remote-as 65500
     update-source loopback0
     address-family l2vpn evpn
+      send-community both
+evpn
+  vni 30000 l2
+    rd auto
+    route-target import auto
+    route-target export auto
 no system default switchport shutdown</entry>
         </extensions>
         <interface id="0" name="Ethernet2/1"/>
@@ -2498,7 +2528,7 @@ no system default switchport shutdown</entry>
         <extensions>
             <entry key="Auto-generate config" type="Boolean">false</entry>
             <entry key="config" type="String">!Command: show running-config
-!Time: Thu Oct  6 22:10:53 2016
+!Time: Thu Oct  6 23:17:41 2016
 
 version 7.3(0)D1(1)
 power redundancy-mode redundant
@@ -2548,7 +2578,10 @@ snmp-server enable traps link
 
 ip pim ssm range 232.0.0.0/8
 ip pim auto-rp listen forward
-vlan 1
+vlan 1,10
+vlan 10
+  name VID:10-30000
+  vn-segment 30000
 
 vrf context management
 
@@ -2556,6 +2589,13 @@ interface mgmt0
   vrf member management
 
 interface Vlan1
+
+interface nve1
+  no shutdown
+  source-interface loopback0
+  host-reachability protocol bgp
+  member vni 30000
+    mcast-group 225.1.1.1
 
 interface Ethernet2/1
   no switchport
@@ -2585,9 +2625,11 @@ interface Ethernet2/4
   mac-address 0000.0000.002f
 
 interface Ethernet2/5
-  shutdown
-  no switchport
-  mac-address 0000.0000.002f
+  description H2
+  switchport
+  switchport access vlan 10
+  spanning-tree port type edge
+  no shutdown
 
 interface Ethernet2/6
   shutdown
@@ -3299,14 +3341,22 @@ router bgp 65500
   router-id 10.254.102.102
   timers bgp 10 30
   log-neighbor-changes
+  address-family l2vpn evpn
   neighbor 10.254.10.10
     remote-as 65500
     update-source loopback0
     address-family l2vpn evpn
+      send-community both
   neighbor 10.254.20.20
     remote-as 65500
     update-source loopback0
     address-family l2vpn evpn
+      send-community both
+evpn
+  vni 30000 l2
+    rd auto
+    route-target import auto
+    route-target export auto
 no system default switchport shutdown</entry>
         </extensions>
         <interface id="0" name="Ethernet2/1"/>
@@ -3319,7 +3369,7 @@ no system default switchport shutdown</entry>
         <extensions>
             <entry key="Auto-generate config" type="Boolean">false</entry>
             <entry key="config" type="String">!Command: show running-config
-!Time: Thu Oct  6 22:10:53 2016
+!Time: Thu Oct  6 23:17:42 2016
 
 version 7.3(0)D1(1)
 power redundancy-mode redundant
@@ -3369,7 +3419,9 @@ snmp-server enable traps link
 
 ip pim ssm range 232.0.0.0/8
 ip pim auto-rp listen forward
-vlan 1
+vlan 1,10
+vlan 10
+  vn-segment 30000
 
 vrf context management
 
@@ -3377,6 +3429,13 @@ interface mgmt0
   vrf member management
 
 interface Vlan1
+
+interface nve1
+  no shutdown
+  source-interface loopback0
+  host-reachability protocol bgp
+  member vni 30000
+    mcast-group 225.1.1.1
 
 interface Ethernet2/1
   no switchport
@@ -4120,14 +4179,17 @@ router bgp 65500
   router-id 10.254.103.103
   timers bgp 10 30
   log-neighbor-changes
+  address-family l2vpn evpn
   neighbor 10.254.10.10
     remote-as 65500
     update-source loopback0
     address-family l2vpn evpn
+      send-community both
   neighbor 10.254.20.20
     remote-as 65500
     update-source loopback0
     address-family l2vpn evpn
+      send-community both
 no system default switchport shutdown</entry>
         </extensions>
         <interface id="0" name="Ethernet2/1"/>
@@ -4139,7 +4201,7 @@ no system default switchport shutdown</entry>
         <extensions>
             <entry key="Auto-generate config" type="Boolean">false</entry>
             <entry key="config" type="String">!Command: show running-config
-!Time: Thu Oct  6 22:12:10 2016
+!Time: Thu Oct  6 23:19:48 2016
 
 version 7.3(0)D1(1)
 power redundancy-mode redundant
@@ -4912,7 +4974,7 @@ no system default switchport shutdown</entry>
         <extensions>
             <entry key="Auto-generate config" type="Boolean">false</entry>
             <entry key="config" type="String">!
-! Last configuration change at 22:10:13 UTC Thu Oct 6 2016
+! Last configuration change at 23:16:41 UTC Thu Oct 6 2016
 !
 version 15.6
 service timestamps debug datetime msec
@@ -5057,7 +5119,7 @@ end</entry>
         <extensions>
             <entry key="Auto-generate config" type="Boolean">false</entry>
             <entry key="config" type="String">!
-! Last configuration change at 22:10:10 UTC Thu Oct 6 2016
+! Last configuration change at 23:16:37 UTC Thu Oct 6 2016
 !
 version 15.6
 service timestamps debug datetime msec
@@ -5202,7 +5264,7 @@ end</entry>
         <extensions>
             <entry key="Auto-generate config" type="Boolean">false</entry>
             <entry key="config" type="String">!
-! Last configuration change at 22:10:18 UTC Thu Oct 6 2016
+! Last configuration change at 23:16:48 UTC Thu Oct 6 2016
 !
 version 15.6
 service timestamps debug datetime msec
@@ -5270,8 +5332,7 @@ interface GigabitEthernet0/0
  media-type rj45
 !
 interface GigabitEthernet0/1
- no ip address
- shutdown
+ ip address 192.168.1.11 255.255.255.0
  duplex auto
  speed auto
  media-type rj45
@@ -5331,7 +5392,7 @@ end</entry>
         <extensions>
             <entry key="Auto-generate config" type="Boolean">false</entry>
             <entry key="config" type="String">!
-! Last configuration change at 22:10:15 UTC Thu Oct 6 2016
+! Last configuration change at 23:16:40 UTC Thu Oct 6 2016
 !
 version 15.6
 service timestamps debug datetime msec
@@ -5399,8 +5460,7 @@ interface GigabitEthernet0/0
  media-type rj45
 !
 interface GigabitEthernet0/1
- no ip address
- shutdown
+ ip address 192.168.1.22 255.255.255.0
  duplex auto
  speed auto
  media-type rj45
@@ -5460,7 +5520,7 @@ end</entry>
         <extensions>
             <entry key="Auto-generate config" type="Boolean">false</entry>
             <entry key="config" type="String">!
-! Last configuration change at 22:10:30 UTC Thu Oct 6 2016
+! Last configuration change at 23:17:02 UTC Thu Oct 6 2016
 !
 version 15.6
 service timestamps debug datetime msec
