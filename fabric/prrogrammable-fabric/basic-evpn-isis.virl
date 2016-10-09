@@ -4,7 +4,7 @@
         <extensions>
             <entry key="Auto-generate config" type="Boolean">false</entry>
             <entry key="config" type="String">!Command: show running-config
-!Time: Sun Oct  9 11:56:31 2016
+!Time: Sun Oct  9 15:30:26 2016
 
 version 7.3(0)D1(1)
 power redundancy-mode redundant
@@ -836,8 +836,7 @@ router bgp 65500
     remote-as 65500
     update-source loopback0
     address-family l2vpn evpn
-      send-community both
-      route-reflector-client</entry>
+      send-community both</entry>
         </extensions>
         <interface id="0" name="Ethernet2/1"/>
         <interface id="1" name="Ethernet2/2"/>
@@ -847,7 +846,7 @@ router bgp 65500
         <extensions>
             <entry key="Auto-generate config" type="Boolean">false</entry>
             <entry key="config" type="String">!Command: show running-config
-!Time: Sun Oct  9 11:56:10 2016
+!Time: Sun Oct  9 15:31:47 2016
 
 version 7.3(0)D1(1)
 power redundancy-mode redundant
@@ -1679,8 +1678,7 @@ router bgp 65500
     remote-as 65500
     update-source loopback0
     address-family l2vpn evpn
-      send-community both
-      route-reflector-client</entry>
+      send-community both</entry>
         </extensions>
         <interface id="0" name="Ethernet2/1"/>
         <interface id="1" name="Ethernet2/2"/>
@@ -1690,7 +1688,7 @@ router bgp 65500
         <extensions>
             <entry key="Auto-generate config" type="Boolean">false</entry>
             <entry key="config" type="String">!Command: show running-config
-!Time: Sun Oct  9 11:56:01 2016
+!Time: Sun Oct  9 15:28:18 2016
 
 version 7.3(0)D1(1)
 power redundancy-mode redundant
@@ -1742,16 +1740,25 @@ snmp-server enable traps link cisco-xcvr-mon-status-chg
 fabric forwarding anycast-gateway-mac 0001.DEAD.BEEF
 ip pim ssm range 232.0.0.0/8
 ip pim auto-rp listen forward
-vlan 1,10,2500
+vlan 1,10,2500-2501
 vlan 10
   name VID:10-30000
   vn-segment 30000
 vlan 2500
   name VID:2500-50000
   vn-segment 50000
+vlan 2501
+  name VID:2501-51000
+  vn-segment 51000
 
 vrf context T1
   vni 50000
+  rd auto
+  address-family ipv4 unicast
+    route-target both auto
+    route-target both auto evpn
+vrf context T2
+  vni 51000
   rd auto
   address-family ipv4 unicast
     route-target both auto
@@ -1767,7 +1774,14 @@ interface Vlan1
 interface Vlan2500
   description FabricBD-01
   no shutdown
+  no autostate
   vrf member T1
+  ip forward
+
+interface Vlan2501
+  description FabricBD-T02
+  no shutdown
+  vrf member T2
   ip forward
 
 interface nve1
@@ -1777,6 +1791,7 @@ interface nve1
   member vni 30000
     mcast-group 225.1.1.1
   member vni 50000 associate-vrf
+  member vni 51000 associate-vrf
 
 interface Ethernet2/1
   no switchport
@@ -2559,10 +2574,17 @@ router bgp 65500
       remote-as 1
       address-family ipv4 unicast
         soft-reconfiguration inbound
+  vrf T2
+    address-family ipv4 unicast
+      advertise l2vpn evpn
+    neighbor 192.2.254.1
+      remote-as 1
+      address-family ipv4 unicast
 evpn
   vni 30000 l2
     rd auto
-    route-target import auto</entry>
+    route-target import auto
+    route-target export auto</entry>
         </extensions>
         <interface id="0" name="Ethernet2/1"/>
         <interface id="1" name="Ethernet2/2"/>
@@ -2573,7 +2595,7 @@ evpn
         <extensions>
             <entry key="Auto-generate config" type="Boolean">false</entry>
             <entry key="config" type="String">!Command: show running-config
-!Time: Sun Oct  9 11:56:16 2016
+!Time: Sun Oct  9 15:28:13 2016
 
 version 7.3(0)D1(1)
 power redundancy-mode redundant
@@ -2625,16 +2647,25 @@ snmp-server enable traps link cisco-xcvr-mon-status-chg
 fabric forwarding anycast-gateway-mac 0001.DEAD.BEEF
 ip pim ssm range 232.0.0.0/8
 ip pim auto-rp listen forward
-vlan 1,10,2500
+vlan 1,10,2500-2501
 vlan 10
   name VID:10-30000
   vn-segment 30000
 vlan 2500
   name VID:2500-50000
   vn-segment 50000
+vlan 2501
+  name VID:2501-51000
+  vn-segment 51000
 
 vrf context T1
   vni 50000
+  rd auto
+  address-family ipv4 unicast
+    route-target both auto
+    route-target both auto evpn
+vrf context T2
+  vni 51000
   rd auto
   address-family ipv4 unicast
     route-target both auto
@@ -2647,6 +2678,19 @@ interface mgmt0
 interface Vlan1
   no shutdown
 
+interface Vlan2500
+  description FabricBD-01
+  no shutdown
+  no autostate
+  vrf member T1
+  ip forward
+
+interface Vlan2501
+  description FabricBD-T02
+  no shutdown
+  vrf member T2
+  ip forward
+
 interface nve1
   no shutdown
   source-interface loopback0
@@ -2654,6 +2698,7 @@ interface nve1
   member vni 30000
     mcast-group 225.1.1.1
   member vni 50000 associate-vrf
+  member vni 51000 associate-vrf
 
 interface Ethernet2/1
   no switchport
@@ -2672,10 +2717,22 @@ interface Ethernet2/2
   no shutdown
 
 interface Ethernet2/3
-  shutdown
   no switchport
   mac-address 0000.0000.0102
   ip router isis ISIS-01
+  no shutdown
+
+interface Ethernet2/3.1100
+  encapsulation dot1q 1100
+  vrf member T1
+  ip address 1.1.254.254/24
+  no shutdown
+
+interface Ethernet2/3.2100
+  encapsulation dot1q 2100
+  vrf member T2
+  ip address 1.2.254.254/24
+  no shutdown
 
 interface Ethernet2/4
   shutdown
@@ -3419,10 +3476,19 @@ router bgp 65500
     address-family ipv4 unicast
       network 1.1.1.102/32
       advertise l2vpn evpn
+    neighbor 1.1.254.1
+      remote-as 11
+      address-family ipv4 unicast
+  vrf T2
+    address-family ipv4 unicast
+    neighbor 1.2.254.1
+      remote-as 11
+      address-family ipv4 unicast
 evpn
   vni 30000 l2
     rd auto
-    route-target import auto</entry>
+    route-target import auto
+    route-target export auto</entry>
         </extensions>
         <interface id="0" name="Ethernet2/1"/>
         <interface id="1" name="Ethernet2/2"/>
@@ -3434,7 +3500,7 @@ evpn
         <extensions>
             <entry key="Auto-generate config" type="Boolean">false</entry>
             <entry key="config" type="String">!Command: show running-config
-!Time: Sun Oct  9 11:56:17 2016
+!Time: Sun Oct  9 15:28:13 2016
 
 version 7.3(0)D1(1)
 power redundancy-mode redundant
@@ -3486,15 +3552,24 @@ snmp-server enable traps link cisco-xcvr-mon-status-chg
 fabric forwarding anycast-gateway-mac 0001.DEAD.BEEF
 ip pim ssm range 232.0.0.0/8
 ip pim auto-rp listen forward
-vlan 1,10,2500
+vlan 1,10,2500-2501
 vlan 10
   vn-segment 30000
 vlan 2500
   name VID:2500-50000
   vn-segment 50000
+vlan 2501
+  name VID:2501-51000
+  vn-segment 51000
 
 vrf context T1
   vni 50000
+  rd auto
+  address-family ipv4 unicast
+    route-target both auto
+    route-target both auto evpn
+vrf context T2
+  vni 51000
   rd auto
   address-family ipv4 unicast
     route-target both auto
@@ -3507,6 +3582,19 @@ interface mgmt0
 interface Vlan1
   no shutdown
 
+interface Vlan2500
+  description FabricBD-01 T1
+  no shutdown
+  no autostate
+  vrf member T1
+  ip forward
+
+interface Vlan2501
+  description FabricBD-T02
+  no shutdown
+  vrf member T2
+  ip forward
+
 interface nve1
   no shutdown
   source-interface loopback0
@@ -3514,6 +3602,7 @@ interface nve1
   member vni 30000
     mcast-group 225.1.1.1
   member vni 50000 associate-vrf
+  member vni 51000 associate-vrf
 
 interface Ethernet2/1
   no switchport
@@ -4277,10 +4366,11 @@ router bgp 65500
     address-family ipv4 unicast
       network 1.1.1.103/32
       advertise l2vpn evpn
+  vrf T2
+    address-family ipv4 unicast
 evpn
   vni 30000 l2
-    rd auto
-    route-target import auto</entry>
+    rd auto</entry>
         </extensions>
         <interface id="0" name="Ethernet2/1"/>
         <interface id="1" name="Ethernet2/2"/>
@@ -4291,7 +4381,7 @@ evpn
         <extensions>
             <entry key="Auto-generate config" type="Boolean">false</entry>
             <entry key="config" type="String">!Command: show running-config
-!Time: Sun Oct  9 11:55:40 2016
+!Time: Sun Oct  9 15:28:13 2016
 
 version 7.3(0)D1(1)
 power redundancy-mode redundant
@@ -4966,7 +5056,7 @@ router bgp 1
         <extensions>
             <entry key="Auto-generate config" type="Boolean">false</entry>
             <entry key="config" type="String">!
-! Last configuration change at 11:29:32 UTC Sun Oct 9 2016
+! Last configuration change at 15:26:31 UTC Sun Oct 9 2016
 !
 version 15.6
 service timestamps debug datetime msec
@@ -4978,6 +5068,18 @@ hostname EDGE-01
 boot-start-marker
 boot-end-marker
 !
+!
+vrf definition T1
+ rd 11:1
+ !
+ address-family ipv4
+ exit-address-family
+!
+vrf definition T2
+ rd 11:2
+ !
+ address-family ipv4
+ exit-address-family
 !
 !
 no aaa new-model
@@ -5026,8 +5128,13 @@ redundancy
 !
 !
 !
+interface Loopback11
+ description T1 loopback 1
+ vrf forwarding T1
+ ip address 1.1.1.1 255.255.255.255
+!
 interface GigabitEthernet0/0
- ip address 10.255.2.249 255.255.0.0
+ ip address 10.255.3.15 255.255.0.0
  shutdown
  duplex auto
  speed auto
@@ -5035,10 +5142,19 @@ interface GigabitEthernet0/0
 !
 interface GigabitEthernet0/1
  no ip address
- shutdown
  duplex auto
  speed auto
  media-type rj45
+!
+interface GigabitEthernet0/1.1100
+ encapsulation dot1Q 1100
+ vrf forwarding T1
+ ip address 1.1.254.1 255.255.255.0
+!
+interface GigabitEthernet0/1.2100
+ encapsulation dot1Q 2100
+ vrf forwarding T2
+ ip address 1.2.254.1 255.255.255.0
 !
 interface GigabitEthernet0/2
  no ip address
@@ -5053,6 +5169,23 @@ interface GigabitEthernet0/3
  duplex auto
  speed auto
  media-type rj45
+!
+router bgp 11
+ bgp router-id 11.11.11.11
+ bgp log-neighbor-changes
+ no bgp default ipv4-unicast
+ timers bgp 10 30
+ !
+ address-family ipv4 vrf T1
+  network 1.1.1.1 mask 255.255.255.255
+  neighbor 1.1.254.254 remote-as 65500
+  neighbor 1.1.254.254 activate
+ exit-address-family
+ !
+ address-family ipv4 vrf T2
+  neighbor 1.2.254.254 remote-as 65500
+  neighbor 1.2.254.254 activate
+ exit-address-family
 !
 ip forward-protocol nd
 !
@@ -5111,7 +5244,7 @@ end</entry>
         <extensions>
             <entry key="Auto-generate config" type="Boolean">false</entry>
             <entry key="config" type="String">!
-! Last configuration change at 11:33:26 UTC Sun Oct 9 2016
+! Last configuration change at 15:26:58 UTC Sun Oct 9 2016
 !
 version 15.6
 service timestamps debug datetime msec
@@ -5172,7 +5305,7 @@ redundancy
 !
 !
 interface GigabitEthernet0/0
- ip address 10.255.3.2 255.255.0.0
+ ip address 10.255.3.14 255.255.0.0
  shutdown
  duplex auto
  speed auto
@@ -5256,7 +5389,7 @@ end</entry>
         <extensions>
             <entry key="Auto-generate config" type="Boolean">false</entry>
             <entry key="config" type="String">!
-! Last configuration change at 11:37:24 UTC Sun Oct 9 2016
+! Last configuration change at 15:26:16 UTC Sun Oct 9 2016
 !
 version 15.6
 service timestamps debug datetime msec
@@ -5317,7 +5450,7 @@ redundancy
 !
 !
 interface GigabitEthernet0/0
- ip address 10.255.2.250 255.255.0.0
+ ip address 10.255.3.16 255.255.0.0
  shutdown
  duplex auto
  speed auto
@@ -5384,7 +5517,7 @@ end</entry>
         <extensions>
             <entry key="Auto-generate config" type="Boolean">false</entry>
             <entry key="config" type="String">!
-! Last configuration change at 11:36:14 UTC Sun Oct 9 2016
+! Last configuration change at 15:27:11 UTC Sun Oct 9 2016
 !
 version 15.6
 service timestamps debug datetime msec
@@ -5445,7 +5578,7 @@ redundancy
 !
 !
 interface GigabitEthernet0/0
- ip address 10.255.3.1 255.255.0.0
+ ip address 10.255.3.23 255.255.0.0
  shutdown
  duplex auto
  speed auto
@@ -5512,7 +5645,7 @@ end</entry>
         <extensions>
             <entry key="Auto-generate config" type="Boolean">false</entry>
             <entry key="config" type="String">!
-! Last configuration change at 11:30:16 UTC Sun Oct 9 2016
+! Last configuration change at 15:26:39 UTC Sun Oct 9 2016
 !
 version 15.6
 service timestamps debug datetime msec
@@ -5573,7 +5706,7 @@ redundancy
 !
 !
 interface GigabitEthernet0/0
- ip address 10.255.3.3 255.255.0.0
+ ip address 10.255.3.22 255.255.0.0
  shutdown
  duplex auto
  speed auto
