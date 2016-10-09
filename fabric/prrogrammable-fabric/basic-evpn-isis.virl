@@ -4,7 +4,7 @@
         <extensions>
             <entry key="Auto-generate config" type="Boolean">false</entry>
             <entry key="config" type="String">!Command: show running-config
-!Time: Fri Oct  7 12:40:24 2016
+!Time: Sun Oct  9 11:56:31 2016
 
 version 7.3(0)D1(1)
 power redundancy-mode redundant
@@ -836,7 +836,8 @@ router bgp 65500
     remote-as 65500
     update-source loopback0
     address-family l2vpn evpn
-      send-community both</entry>
+      send-community both
+      route-reflector-client</entry>
         </extensions>
         <interface id="0" name="Ethernet2/1"/>
         <interface id="1" name="Ethernet2/2"/>
@@ -846,7 +847,7 @@ router bgp 65500
         <extensions>
             <entry key="Auto-generate config" type="Boolean">false</entry>
             <entry key="config" type="String">!Command: show running-config
-!Time: Fri Oct  7 12:40:40 2016
+!Time: Sun Oct  9 11:56:10 2016
 
 version 7.3(0)D1(1)
 power redundancy-mode redundant
@@ -1678,7 +1679,8 @@ router bgp 65500
     remote-as 65500
     update-source loopback0
     address-family l2vpn evpn
-      send-community both</entry>
+      send-community both
+      route-reflector-client</entry>
         </extensions>
         <interface id="0" name="Ethernet2/1"/>
         <interface id="1" name="Ethernet2/2"/>
@@ -1688,7 +1690,7 @@ router bgp 65500
         <extensions>
             <entry key="Auto-generate config" type="Boolean">false</entry>
             <entry key="config" type="String">!Command: show running-config
-!Time: Fri Oct  7 12:40:24 2016
+!Time: Sun Oct  9 11:56:01 2016
 
 version 7.3(0)D1(1)
 power redundancy-mode redundant
@@ -1737,12 +1739,16 @@ rmon event 5 log description INFORMATION(5) owner PMON@INFO
 snmp-server enable traps link
 snmp-server enable traps link cisco-xcvr-mon-status-chg
 
+fabric forwarding anycast-gateway-mac 0001.DEAD.BEEF
 ip pim ssm range 232.0.0.0/8
 ip pim auto-rp listen forward
-vlan 1,10
+vlan 1,10,2500
 vlan 10
   name VID:10-30000
   vn-segment 30000
+vlan 2500
+  name VID:2500-50000
+  vn-segment 50000
 
 vrf context T1
   vni 50000
@@ -1757,6 +1763,12 @@ interface mgmt0
 
 interface Vlan1
   no shutdown
+
+interface Vlan2500
+  description FabricBD-01
+  no shutdown
+  vrf member T1
+  ip forward
 
 interface nve1
   no shutdown
@@ -1783,10 +1795,22 @@ interface Ethernet2/2
   no shutdown
 
 interface Ethernet2/3
-  shutdown
   no switchport
   mac-address 0000.0000.0101
   ip router isis ISIS-01
+  no shutdown
+
+interface Ethernet2/3.1100
+  encapsulation dot1q 1100
+  vrf member T1
+  ip address 192.1.254.101/24
+  no shutdown
+
+interface Ethernet2/3.2100
+  encapsulation dot1q 2100
+  vrf member T2
+  ip address 192.2.254.101/24
+  no shutdown
 
 interface Ethernet2/4
   description H1
@@ -2499,9 +2523,10 @@ interface loopback0
   ip address 10.254.101.101/32
   ip router isis ISIS-01
 
-interface loopback101
+interface loopback1001
+  description loopback T1
   vrf member T1
-  ip address 101.101.101.101/32
+  ip address 1.1.1.101/32
 line console
 line vty
 boot kickstart bootflash:/titanium-d1-kickstart.7.3.0.D1.1.bin
@@ -2528,13 +2553,16 @@ router bgp 65500
       send-community both
   vrf T1
     address-family ipv4 unicast
-      network 101.101.101.101/32
+      network 1.1.1.101/32
       advertise l2vpn evpn
+    neighbor 192.1.254.1
+      remote-as 1
+      address-family ipv4 unicast
+        soft-reconfiguration inbound
 evpn
   vni 30000 l2
     rd auto
-    route-target import auto
-    route-target export auto</entry>
+    route-target import auto</entry>
         </extensions>
         <interface id="0" name="Ethernet2/1"/>
         <interface id="1" name="Ethernet2/2"/>
@@ -2545,7 +2573,7 @@ evpn
         <extensions>
             <entry key="Auto-generate config" type="Boolean">false</entry>
             <entry key="config" type="String">!Command: show running-config
-!Time: Fri Oct  7 12:40:23 2016
+!Time: Sun Oct  9 11:56:16 2016
 
 version 7.3(0)D1(1)
 power redundancy-mode redundant
@@ -2594,13 +2622,23 @@ rmon event 5 log description INFORMATION(5) owner PMON@INFO
 snmp-server enable traps link
 snmp-server enable traps link cisco-xcvr-mon-status-chg
 
+fabric forwarding anycast-gateway-mac 0001.DEAD.BEEF
 ip pim ssm range 232.0.0.0/8
 ip pim auto-rp listen forward
-vlan 1,10
+vlan 1,10,2500
 vlan 10
   name VID:10-30000
   vn-segment 30000
+vlan 2500
+  name VID:2500-50000
+  vn-segment 50000
 
+vrf context T1
+  vni 50000
+  rd auto
+  address-family ipv4 unicast
+    route-target both auto
+    route-target both auto evpn
 vrf context management
 
 interface mgmt0
@@ -2615,6 +2653,7 @@ interface nve1
   host-reachability protocol bgp
   member vni 30000
     mcast-group 225.1.1.1
+  member vni 50000 associate-vrf
 
 interface Ethernet2/1
   no switchport
@@ -3348,6 +3387,11 @@ interface Ethernet4/48
 interface loopback0
   ip address 10.254.102.102/32
   ip router isis ISIS-01
+
+interface loopback1001
+  description loopback T1
+  vrf member T1
+  ip address 1.1.1.102/32
 line console
 line vty
 boot kickstart bootflash:/titanium-d1-kickstart.7.3.0.D1.1.bin
@@ -3371,11 +3415,14 @@ router bgp 65500
     update-source loopback0
     address-family l2vpn evpn
       send-community both
+  vrf T1
+    address-family ipv4 unicast
+      network 1.1.1.102/32
+      advertise l2vpn evpn
 evpn
   vni 30000 l2
     rd auto
-    route-target import auto
-    route-target export auto</entry>
+    route-target import auto</entry>
         </extensions>
         <interface id="0" name="Ethernet2/1"/>
         <interface id="1" name="Ethernet2/2"/>
@@ -3387,7 +3434,7 @@ evpn
         <extensions>
             <entry key="Auto-generate config" type="Boolean">false</entry>
             <entry key="config" type="String">!Command: show running-config
-!Time: Fri Oct  7 12:40:23 2016
+!Time: Sun Oct  9 11:56:17 2016
 
 version 7.3(0)D1(1)
 power redundancy-mode redundant
@@ -3436,12 +3483,22 @@ rmon event 5 log description INFORMATION(5) owner PMON@INFO
 snmp-server enable traps link
 snmp-server enable traps link cisco-xcvr-mon-status-chg
 
+fabric forwarding anycast-gateway-mac 0001.DEAD.BEEF
 ip pim ssm range 232.0.0.0/8
 ip pim auto-rp listen forward
-vlan 1,10
+vlan 1,10,2500
 vlan 10
   vn-segment 30000
+vlan 2500
+  name VID:2500-50000
+  vn-segment 50000
 
+vrf context T1
+  vni 50000
+  rd auto
+  address-family ipv4 unicast
+    route-target both auto
+    route-target both auto evpn
 vrf context management
 
 interface mgmt0
@@ -3456,6 +3513,7 @@ interface nve1
   host-reachability protocol bgp
   member vni 30000
     mcast-group 225.1.1.1
+  member vni 50000 associate-vrf
 
 interface Ethernet2/1
   no switchport
@@ -4187,6 +4245,11 @@ interface Ethernet4/48
 interface loopback0
   ip address 10.254.103.103/32
   ip router isis ISIS-01
+
+interface loopback1001
+  description loopback T1
+  vrf member T1
+  ip address 1.1.1.103/32
 line console
 line vty
 boot kickstart bootflash:/titanium-d1-kickstart.7.3.0.D1.1.bin
@@ -4209,11 +4272,15 @@ router bgp 65500
     remote-as 65500
     update-source loopback0
     address-family l2vpn evpn
+      send-community both
+  vrf T1
+    address-family ipv4 unicast
+      network 1.1.1.103/32
+      advertise l2vpn evpn
 evpn
   vni 30000 l2
     rd auto
-    route-target import auto
-    route-target export auto</entry>
+    route-target import auto</entry>
         </extensions>
         <interface id="0" name="Ethernet2/1"/>
         <interface id="1" name="Ethernet2/2"/>
@@ -4224,10 +4291,11 @@ evpn
         <extensions>
             <entry key="Auto-generate config" type="Boolean">false</entry>
             <entry key="config" type="String">!Command: show running-config
-!Time: Fri Oct  7 12:41:03 2016
+!Time: Sun Oct  9 11:55:40 2016
 
 version 7.3(0)D1(1)
 power redundancy-mode redundant
+license grace-period
 
 hostname EDGE-03
 vdc EDGE-03 id 1
@@ -4242,6 +4310,8 @@ vdc EDGE-03 id 1
   limit-resource u6route-mem minimum 24 maximum 24
   limit-resource m4route-mem minimum 58 maximum 58
   limit-resource m6route-mem minimum 8 maximum 8
+
+feature bgp
 
 username admin password 5 $5$Otc7T0NC$K.ulnSZnSyXLrTGNBdtLgZJXEa8EeNx.BrdZ98XyK2C  role network-admin
 no password strength-check
@@ -4262,15 +4332,31 @@ snmp-server enable traps link cisco-xcvr-mon-status-chg
 
 vlan 1
 
+vrf context T1
+  address-family ipv4 unicast
+vrf context T2
+  address-family ipv4 unicast
 vrf context management
 
 interface mgmt0
   vrf member management
 
 interface Ethernet2/1
-  shutdown
   no switchport
-  mac-address 0000.0000.002f
+  mac-address 0000.0003.0000
+  no shutdown
+
+interface Ethernet2/1.1100
+  encapsulation dot1q 1100
+  vrf member T1
+  ip address 192.1.254.1/24
+  no shutdown
+
+interface Ethernet2/1.2100
+  encapsulation dot1q 2100
+  vrf member T2
+  ip address 192.2.254.1/24
+  no shutdown
 
 interface Ethernet2/2
   shutdown
@@ -4842,10 +4928,37 @@ interface Ethernet4/47
 
 interface Ethernet4/48
   switchport
+
+interface loopback101
+  vrf member T1
+  ip address 192.1.1.100/32
+
+interface loopback102
+  vrf member T2
+  ip address 192.2.2.100/32
 line console
 line vty
 boot kickstart bootflash:/titanium-d1-kickstart.7.3.0.D1.1.bin
-boot system bootflash:/titanium-d1.7.3.0.D1.1.bin</entry>
+boot system bootflash:/titanium-d1.7.3.0.D1.1.bin 
+router bgp 1
+  timers bgp 10 30
+  address-family ipv4 unicast
+  vrf T1
+    router-id 192.1.1.100
+    log-neighbor-changes
+    address-family ipv4 unicast
+      network 192.1.1.100/32
+    neighbor 192.1.254.101
+      remote-as 65500
+      address-family ipv4 unicast
+  vrf T2
+    router-id 192.2.2.100
+    log-neighbor-changes
+    address-family ipv4 unicast
+      network 192.2.2.100/32
+    neighbor 192.2.254.101
+      remote-as 65500
+      address-family ipv4 unicast</entry>
         </extensions>
         <interface id="0" name="Ethernet2/1"/>
     </node>
@@ -4853,7 +4966,7 @@ boot system bootflash:/titanium-d1.7.3.0.D1.1.bin</entry>
         <extensions>
             <entry key="Auto-generate config" type="Boolean">false</entry>
             <entry key="config" type="String">!
-! Last configuration change at 12:39:42 UTC Fri Oct 7 2016
+! Last configuration change at 11:29:32 UTC Sun Oct 9 2016
 !
 version 15.6
 service timestamps debug datetime msec
@@ -4914,7 +5027,7 @@ redundancy
 !
 !
 interface GigabitEthernet0/0
- ip address 10.255.2.209 255.255.0.0
+ ip address 10.255.2.249 255.255.0.0
  shutdown
  duplex auto
  speed auto
@@ -4998,7 +5111,7 @@ end</entry>
         <extensions>
             <entry key="Auto-generate config" type="Boolean">false</entry>
             <entry key="config" type="String">!
-! Last configuration change at 12:39:41 UTC Fri Oct 7 2016
+! Last configuration change at 11:33:26 UTC Sun Oct 9 2016
 !
 version 15.6
 service timestamps debug datetime msec
@@ -5059,7 +5172,7 @@ redundancy
 !
 !
 interface GigabitEthernet0/0
- ip address 10.255.2.208 255.255.0.0
+ ip address 10.255.3.2 255.255.0.0
  shutdown
  duplex auto
  speed auto
@@ -5143,7 +5256,7 @@ end</entry>
         <extensions>
             <entry key="Auto-generate config" type="Boolean">false</entry>
             <entry key="config" type="String">!
-! Last configuration change at 12:39:39 UTC Fri Oct 7 2016
+! Last configuration change at 11:37:24 UTC Sun Oct 9 2016
 !
 version 15.6
 service timestamps debug datetime msec
@@ -5204,7 +5317,7 @@ redundancy
 !
 !
 interface GigabitEthernet0/0
- ip address 10.255.2.210 255.255.0.0
+ ip address 10.255.2.250 255.255.0.0
  shutdown
  duplex auto
  speed auto
@@ -5271,7 +5384,7 @@ end</entry>
         <extensions>
             <entry key="Auto-generate config" type="Boolean">false</entry>
             <entry key="config" type="String">!
-! Last configuration change at 12:39:46 UTC Fri Oct 7 2016
+! Last configuration change at 11:36:14 UTC Sun Oct 9 2016
 !
 version 15.6
 service timestamps debug datetime msec
@@ -5332,7 +5445,7 @@ redundancy
 !
 !
 interface GigabitEthernet0/0
- ip address 10.255.2.217 255.255.0.0
+ ip address 10.255.3.1 255.255.0.0
  shutdown
  duplex auto
  speed auto
@@ -5399,7 +5512,7 @@ end</entry>
         <extensions>
             <entry key="Auto-generate config" type="Boolean">false</entry>
             <entry key="config" type="String">!
-! Last configuration change at 12:40:00 UTC Fri Oct 7 2016
+! Last configuration change at 11:30:16 UTC Sun Oct 9 2016
 !
 version 15.6
 service timestamps debug datetime msec
@@ -5460,7 +5573,7 @@ redundancy
 !
 !
 interface GigabitEthernet0/0
- ip address 10.255.2.216 255.255.0.0
+ ip address 10.255.3.3 255.255.0.0
  shutdown
  duplex auto
  speed auto
