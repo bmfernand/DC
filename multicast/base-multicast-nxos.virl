@@ -4,7 +4,7 @@
         <extensions>
             <entry key="Auto-generate config" type="Boolean">false</entry>
             <entry key="config" type="String">!Command: show running-config
-!Time: Wed Oct  5 21:59:43 2016
+!Time: Thu Oct  6 20:19:32 2016
 
 version 7.3(0)D1(1)
 power redundancy-mode redundant
@@ -24,6 +24,7 @@ vdc spine-10 id 1
   limit-resource m4route-mem minimum 58 maximum 58
   limit-resource m6route-mem minimum 8 maximum 8
 
+feature telnet
 feature pim
 feature isis
 
@@ -44,10 +45,12 @@ rmon event 5 log description INFORMATION(5) owner PMON@INFO
 snmp-server enable traps link
 snmp-server enable traps link cisco-xcvr-mon-status-chg
 
-ip pim send-rp-announce 10.253.1.1 group-list 225.0.0.0/8 scope 10 interval 5 bidir
-ip pim send-rp-discovery loopback0 scope 16
+ip pim send-rp-announce loopback1 group-list 225.0.0.0/8 scope 10 interval 5
+ip pim send-rp-discovery loopback0 scope 10
 ip pim ssm range 232.0.0.0/8
-ip pim auto-rp forward listen
+ip pim anycast-rp 10.253.1.1 10.254.10.10
+ip pim anycast-rp 10.253.1.1 10.254.20.20
+ip pim auto-rp listen forward
 vlan 1
 
 vrf context management
@@ -56,28 +59,28 @@ interface mgmt0
   vrf member management
 
 interface Ethernet2/1
+  shutdown
   no switchport
   mac-address 0000.0000.0010
   ip address 10.1.101.10/24
   ip router isis ISIS-01
   ip pim sparse-mode
-  no shutdown
 
 interface Ethernet2/2
+  shutdown
   no switchport
   mac-address 0000.0000.0010
   ip address 10.1.102.10/24
   ip router isis ISIS-01
   ip pim sparse-mode
-  no shutdown
 
 interface Ethernet2/3
+  shutdown
   no switchport
   mac-address 0000.0000.0010
   ip address 10.1.103.10/24
   ip router isis ISIS-01
   ip pim sparse-mode
-  no shutdown
 
 interface Ethernet2/4
   shutdown
@@ -790,7 +793,7 @@ interface loopback0
   ip pim sparse-mode
 
 interface loopback1
-  ip address 10.253.1.12/27
+  ip address 10.253.1.1/32
   ip router isis ISIS-01
   ip pim sparse-mode
 line console
@@ -810,7 +813,7 @@ router isis ISIS-01
         <extensions>
             <entry key="Auto-generate config" type="Boolean">false</entry>
             <entry key="config" type="String">!Command: show running-config
-!Time: Wed Oct  5 21:59:41 2016
+!Time: Thu Oct  6 20:19:29 2016
 
 version 7.3(0)D1(1)
 power redundancy-mode redundant
@@ -830,6 +833,7 @@ vdc spine-20 id 1
   limit-resource m4route-mem minimum 58 maximum 58
   limit-resource m6route-mem minimum 8 maximum 8
 
+feature telnet
 feature pim
 feature isis
 
@@ -850,10 +854,12 @@ rmon event 5 log description INFORMATION(5) owner PMON@INFO
 snmp-server enable traps link
 snmp-server enable traps link cisco-xcvr-mon-status-chg
 
-ip pim send-rp-announce 10.253.1.1 group-list 225.0.0.0/8 scope 10 interval 5 bidir
-ip pim send-rp-discovery loopback0 scope 16
+ip pim send-rp-announce loopback1 group-list 225.0.0.0/8 scope 10 interval 5
+ip pim send-rp-discovery loopback0 scope 10
 ip pim ssm range 232.0.0.0/8
-ip pim auto-rp forward listen
+ip pim anycast-rp 10.253.1.1 10.254.10.10
+ip pim anycast-rp 10.253.1.1 10.254.20.20
+ip pim auto-rp listen forward
 vlan 1
 
 vrf context management
@@ -1596,7 +1602,7 @@ interface loopback0
   ip pim sparse-mode
 
 interface loopback1
-  ip address 10.253.1.12/26
+  ip address 10.253.1.1/32
   ip router isis ISIS-01
   ip pim sparse-mode
 line console
@@ -1616,7 +1622,7 @@ router isis ISIS-01
         <extensions>
             <entry key="Auto-generate config" type="Boolean">false</entry>
             <entry key="config" type="String">!Command: show running-config
-!Time: Wed Oct  5 21:59:41 2016
+!Time: Thu Oct  6 20:19:27 2016
 
 version 7.3(0)D1(1)
 power redundancy-mode redundant
@@ -1636,6 +1642,7 @@ vdc leaf-101 id 1
   limit-resource m4route-mem minimum 58 maximum 58
   limit-resource m6route-mem minimum 8 maximum 8
 
+feature telnet
 feature pim
 feature isis
 
@@ -1657,7 +1664,7 @@ snmp-server enable traps link
 snmp-server enable traps link cisco-xcvr-mon-status-chg
 
 ip pim ssm range 232.0.0.0/8
-ip pim auto-rp forward listen
+ip pim auto-rp listen forward
 vlan 1
 
 vrf context management
@@ -2397,7 +2404,6 @@ interface Ethernet4/48
 interface loopback0
   ip address 10.254.101.101/32
   ip router isis ISIS-01
-  ip pim sparse-mode
 line console
 line vty
 boot kickstart bootflash:/titanium-d1-kickstart.7.3.0.D1.1.bin
@@ -2415,7 +2421,7 @@ router isis ISIS-01
         <extensions>
             <entry key="Auto-generate config" type="Boolean">false</entry>
             <entry key="config" type="String">!Command: show running-config
-!Time: Wed Oct  5 21:59:50 2016
+!Time: Thu Oct  6 20:20:10 2016
 
 version 7.3(0)D1(1)
 power redundancy-mode redundant
@@ -2435,6 +2441,7 @@ vdc leaf-102 id 1
   limit-resource m4route-mem minimum 58 maximum 58
   limit-resource m6route-mem minimum 8 maximum 8
 
+feature telnet
 feature pim
 feature isis
 
@@ -2456,7 +2463,7 @@ snmp-server enable traps link
 snmp-server enable traps link cisco-xcvr-mon-status-chg
 
 ip pim ssm range 232.0.0.0/8
-ip pim auto-rp forward listen
+ip pim auto-rp listen forward
 vlan 1
 
 vrf context management
@@ -3100,7 +3107,6 @@ interface Ethernet4/48
 interface loopback0
   ip address 10.254.102.102/32
   ip router isis ISIS-01
-  ip pim sparse-mode
 line console
 line vty
 boot kickstart bootflash:/titanium-d1-kickstart.7.3.0.D1.1.bin
@@ -3118,7 +3124,7 @@ router isis ISIS-01
         <extensions>
             <entry key="Auto-generate config" type="Boolean">false</entry>
             <entry key="config" type="String">!Command: show running-config
-!Time: Wed Oct  5 21:59:42 2016
+!Time: Thu Oct  6 20:19:30 2016
 
 version 7.3(0)D1(1)
 power redundancy-mode redundant
@@ -3138,6 +3144,7 @@ vdc leaf-103 id 1
   limit-resource m4route-mem minimum 58 maximum 58
   limit-resource m6route-mem minimum 8 maximum 8
 
+feature telnet
 feature pim
 feature isis
 
@@ -3159,7 +3166,7 @@ snmp-server enable traps link
 snmp-server enable traps link cisco-xcvr-mon-status-chg
 
 ip pim ssm range 232.0.0.0/8
-ip pim auto-rp forward listen
+ip pim auto-rp listen forward
 vlan 1
 
 vrf context management
@@ -3707,7 +3714,6 @@ interface Ethernet4/48
 interface loopback0
   ip address 10.254.103.103/32
   ip router isis ISIS-01
-  ip pim sparse-mode
 line console
 line vty
 boot kickstart bootflash:/titanium-d1-kickstart.7.3.0.D1.1.bin
@@ -3725,7 +3731,7 @@ router isis ISIS-01
         <extensions>
             <entry key="Auto-generate config" type="Boolean">false</entry>
             <entry key="config" type="String">!
-! Last configuration change at 21:58:20 UTC Wed Oct 5 2016
+! Last configuration change at 20:09:56 UTC Thu Oct 6 2016
 !
 version 15.6
 service timestamps debug datetime msec
@@ -3796,9 +3802,7 @@ interface GigabitEthernet0/1
  ip address 192.168.10.2 255.255.255.0
  no ip redirects
  no ip proxy-arp
- ip igmp join-group 225.1.1.5
- ip igmp join-group 225.1.1.4
- ip igmp join-group 225.1.1.3
+ ip igmp join-group 225.1.1.7
  ip igmp join-group 225.1.1.2
  ip igmp join-group 225.1.1.1
  duplex auto
@@ -3861,7 +3865,7 @@ end</entry>
         <extensions>
             <entry key="Auto-generate config" type="Boolean">false</entry>
             <entry key="config" type="String">!
-! Last configuration change at 21:57:57 UTC Wed Oct 5 2016
+! Last configuration change at 20:06:44 UTC Thu Oct 6 2016
 !
 version 15.6
 service timestamps debug datetime msec
@@ -3932,7 +3936,6 @@ interface GigabitEthernet0/1
  ip address 192.168.20.2 255.255.255.0
  no ip redirects
  no ip proxy-arp
- ip igmp join-group 225.1.1.1
  duplex auto
  speed auto
  media-type rj45
@@ -3993,7 +3996,7 @@ end</entry>
         <extensions>
             <entry key="Auto-generate config" type="Boolean">false</entry>
             <entry key="config" type="String">!
-! Last configuration change at 21:58:09 UTC Wed Oct 5 2016
+! Last configuration change at 20:08:13 UTC Thu Oct 6 2016
 !
 version 15.6
 service timestamps debug datetime msec
